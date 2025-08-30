@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM*
+*.xcscmblueprint
+xcuserdata/
+
+# Xcode workspace user data
+inara.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/xcode/xcuserdata/
+
+# CocoaPods (if ever used)
+Pods/
+
+# Carthage (if ever used)
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Other
+*.orig

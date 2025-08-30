@@ -11,7 +11,10 @@ import SwiftUI
 struct inaraApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+
+                ContentView()
+            }
         }
     }
 }
