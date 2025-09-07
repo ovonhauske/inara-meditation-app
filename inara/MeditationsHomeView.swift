@@ -10,95 +10,70 @@ struct MeditationsHomeView: View {
     @State private var selected: MeditationMeta? = nil
     @State private var isExpanded: Bool = false
     @Namespace private var cardNamespace
-    
+
+    // Animation constants
+    private let openSpring = Animation.spring(response: 0.6, dampingFraction: 0.85, blendDuration: 0.2)
+    private let closeSpring = Animation.spring(response: 0.6, dampingFraction: 0.85)
+    private let fadeDuration: Double = 0.6
+    private var fadeAnimation: Animation { .easeOut(duration: fadeDuration) }
+    private let deselectDelay: Double = 0.30
+
     var body: some View {
-        // Keep everything inside a single ZStack; animate card → player using matchedGeometryEffect
+        // Main content
         ZStack {
-            // Scrim to block taps and dim background while expanded
-           
-            // Background content (disabled while expanded to prevent tap leaks)
+    
             VStack() {
                 Image("logo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 80)
                     .padding(.top)
-                                ForEach(meditations) { item in
-                    if selected?.id == item.id && isExpanded {
-                        // Remove source from hierarchy during expansion to avoid duplicate sources
-                        Color.surface
-                            .frame(width: 350, height: 150)
-                    } else {
-                        Button(action: {
+                ForEach(meditations, id: \.id) { item in
+                    let isActive = (selected?.id == item.id)
+
+                    Button {
+                        withAnimation(openSpring) {
                             selected = item
-                            withAnimation(.spring(response: 0.45, dampingFraction: 0.85, blendDuration: 0.2)) {
-                                isExpanded = true
-                            }
-                        }) {
-                            MeditationCard(
-                                title: item.title,
-                                subtitle: item.subtitle,
-                                imageName: item.imageName,
-                                id: item.id,
-                                ns: cardNamespace)                                
+                            isExpanded = true
                         }
-                        .buttonStyle(.plain)
-                        .opacity(selected?.id == item.id && isExpanded ? 0 : 1) // hide instead of removing
+                    } label: {
+                        MeditationCard(
+                            title: item.title,
+                            subtitle: item.subtitle,
+                            imageName: item.imageName,
+                            id: item.id,
+                            ns: cardNamespace
+                        )
+                        
                     }
+                    .buttonStyle(.plain)
+                    .opacity(isActive ? 0 : 1)           // keep layout; just not visible
+                    .allowsHitTesting(!isActive)         // avoid taps leaking
                 }
-                }
+            }
+            .padding(.horizontal, 16)
+            .opacity(isExpanded ? 0 : 1)
+            .animation(fadeAnimation, value: isExpanded)
             }
             .disabled(isExpanded)
  
             
           //expanded card
-            if let current = selected {
-                ZStack(alignment: .topTrailing) {
-                    Button(action: {
-                        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
-                            isExpanded = false
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+        if let current = selected {
+                MeditationDetailView(meta: current, ns: cardNamespace) {
+                    withAnimation(closeSpring) {
+                        isExpanded = false
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + deselectDelay) {
+                        withAnimation(closeSpring) {
                             selected = nil
                         }
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(.secondary)
-                            .padding(16)
                     }
-                    
-                    // Expanded content hosts the player with a matched header
-                    VStack(spacing: 16) {
-                        Image(current.imageName)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(Color("accent"))
-                            .frame(height: 64)
-                            .matchedGeometryEffect(id: "image.\(current.id)", in: cardNamespace, isSource: false)
-
-                        Text(current.title)
-                            .font(.title3.weight(.semibold))
-
-                        Text(current.subtitle)
-                            .font(.callout)
-
-                        // Player and bottom actions – fade/scale in
-                        MeditationPlayerView(title: current.title, folder: current.folder)
-                            .frame(maxHeight: .infinity)
-                    }
-                    .matchedGeometryEffect(id: "image.\(current.id)", in: cardNamespace, isSource: false)
-
-                    .solidCardStyle(fill:Color.green, outline: AppColors.outline)
-                    .padding(.top, 24)
                 }
-                .background(Color.red)
                 .zIndex(1)
-                .transition(.identity) // rely purely on matched geometry for morph
-                
             }
         }
+    
     }
     
     struct MeditationMeta: Identifiable {
@@ -109,3 +84,6 @@ struct MeditationsHomeView: View {
         let imageName: String
     }
     
+#Preview {
+    ContentView()
+}

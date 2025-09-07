@@ -34,6 +34,9 @@
 		B09663912E5F2C7800A8EC91 /* cardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663902E5F2C7200A8EC91 /* cardStyle.swift */; };
 		B09663922E5F2C7800A8EC91 /* cardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663902E5F2C7200A8EC91 /* cardStyle.swift */; };
 		B09663932E5F2C7800A8EC91 /* cardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663902E5F2C7200A8EC91 /* cardStyle.swift */; };
+		B09663992E64972000A8EC91 /* MeditationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663982E64971D00A8EC91 /* MeditationDetailView.swift */; };
+		B096639A2E64972000A8EC91 /* MeditationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663982E64971D00A8EC91 /* MeditationDetailView.swift */; };
+		B096639B2E64972000A8EC91 /* MeditationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09663982E64971D00A8EC91 /* MeditationDetailView.swift */; };
 		B0B48B082E59FD900035A15C /* color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B48B072E59FD900035A15C /* color.xcassets */; };
 		B0F4D3EF2E42E4CC0047476A /* inaraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */; };
 		B0F4D3F12E42E4CC0047476A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F4D3F02E42E4CC0047476A /* ContentView.swift */; };
@@ -71,6 +74,7 @@
 		B096637C2E5BF1ED00A8EC91 /* MeditationsHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationsHomeView.swift; sourceTree = "<group>"; };
 		B096638B2E5D3AD800A8EC91 /* MeditationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationCard.swift; sourceTree = "<group>"; };
 		B09663902E5F2C7200A8EC91 /* cardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cardStyle.swift; sourceTree = "<group>"; };
+		B09663982E64971D00A8EC91 /* MeditationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationDetailView.swift; sourceTree = "<group>"; };
 		B0B48B072E59FD900035A15C /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
 		B0F4D3EB2E42E4CC0047476A /* inara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inara.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inaraApp.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				B09663792E5BF1ED00A8EC91 /* AppColors.swift */,
 				B096637A2E5BF1ED00A8EC91 /* BottomSheetView.swift */,
 				B096637B2E5BF1ED00A8EC91 /* MeditationPlayerView.swift */,
+				B09663982E64971D00A8EC91 /* MeditationDetailView.swift */,
 				B096637C2E5BF1ED00A8EC91 /* MeditationsHomeView.swift */,
 				B096638B2E5D3AD800A8EC91 /* MeditationCard.swift */,
 				B0F4D3F02E42E4CC0047476A /* ContentView.swift */,
@@ -351,6 +356,7 @@
 				B09663852E5BF1ED00A8EC91 /* AppColors.swift in Sources */,
 				B09663862E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
 				B09663922E5F2C7800A8EC91 /* cardStyle.swift in Sources */,
+				B096639A2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
 				B09663872E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B09663882E5BF1ED00A8EC91 /* MeditationsHomeView.swift in Sources */,
 			);
@@ -362,6 +368,7 @@
 			files = (
 				B09663812E5BF1ED00A8EC91 /* AppColors.swift in Sources */,
 				B09663822E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
+				B09663992E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
 				B09663932E5F2C7800A8EC91 /* cardStyle.swift in Sources */,
 				B09663832E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B096638E2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
@@ -380,6 +387,7 @@
 				B096637D2E5BF1ED00A8EC91 /* AppColors.swift in Sources */,
 				B096637E2E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
 				B09663912E5F2C7800A8EC91 /* cardStyle.swift in Sources */,
+				B096639B2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
 				B096637F2E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B09663802E5BF1ED00A8EC91 /* MeditationsHomeView.swift in Sources */,
 			);

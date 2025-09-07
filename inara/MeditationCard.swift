@@ -5,9 +5,9 @@ struct MeditationCard: View {
     let subtitle: String
     let imageName: String
     let id: UUID
-    let ns: Namespace.ID?   // ← optional, default nil
+    let ns: Namespace.ID
     
-    init(title: String, subtitle: String, imageName: String, id: UUID, ns: Namespace.ID? = nil) {
+    init(title: String, subtitle: String, imageName: String, id: UUID, ns: Namespace.ID) {
            self.title = title
            self.subtitle = subtitle
            self.imageName = imageName
@@ -16,60 +16,58 @@ struct MeditationCard: View {
        }
     
     var body: some View {
-        VStack(spacing: 12) {
-            Image(imageName)
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 48)
-                .foregroundColor(Color("accent"))
-                .applyMatch(ns, key: "image", id: id)
+        ZStack{
+            let shape = RoundedRectangle(cornerRadius: 30, style: .continuous)
+            shape
+                .fill(AppColors.surface)                // opaque background (no material)
+                .overlay(shape.stroke(AppColors.outline, lineWidth: 1))
+                .matchedGeometryEffect(id: "card.\(id)", in: ns)
 
-            Spacer(minLength: 0)
-
-            Text(title)
-                .font(.body)
-                .foregroundColor(Color("accent"))
-                .multilineTextAlignment(.center)
-
-            Text(subtitle)
-                .font(.caption)
-                .foregroundColor(Color("accent"))
-                .multilineTextAlignment(.center)
+            VStack(spacing: 12) {
+                Image(imageName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .foregroundColor(AppColors.tulum)
+                    .matchedGeometryEffect(id: "image.\(id)", in: ns)
+                
+                Spacer(minLength: 0)
+                
+                Text(title)
+                    .font(.body)
+                    .foregroundColor(AppColors.tulum)
+                    .multilineTextAlignment(.center)
+                
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(AppColors.tulum)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(24)
         }
-        .padding(24)
+        .frame(maxWidth: .infinity)
+
+
     }
+
 }
 
-private extension View {
-    @ViewBuilder
-    func applyMatch(_ ns: Namespace.ID?, key: String, id: UUID) -> some View {
-        if let ns {
-            self.matchedGeometryEffect(id: "\(key).\(id)", in: ns)
-        } else {
-            self
-        }
-    }
-}
+
 
 #Preview {
-    CardPreview()
-}
-
-private struct CardPreview: View {
-    @Namespace var ns
-    private let demoID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
-
-    var body: some View {
-        MeditationCard(
-            title: "Inara",
-            subtitle: "Calming",
-            imageName: "calming",
-            id: demoID,
-            ns: ns                      // now in scope
-        )
-        .frame(width: 350, height: 150)
-        .solidCardStyle(fill: AppColors.background, outline: AppColors.outline)
-        .padding()
+    struct CardPreview: View {
+        @Namespace var ns
+        var body: some View {
+            MeditationCard(
+                title: "Inara",
+                subtitle: "Calming",
+                imageName: "calming",
+                id: UUID(),
+                ns: ns
+            )
+            .padding()
+        }
     }
+    return CardPreview()
 }

@@ -14,7 +14,7 @@ struct AppColors {
     
     // Accent Colors
     // Accent color (from Assets: color.xcassets → accent)
-    static let accent = Color("accent", bundle: .main)
+    static let tulum = Color("tulum", bundle: .main)
     static let accentDarker = Color(red: 0.345, green: 0.455, blue: 0.443) // #587471 - Tulum/600
     static let outline = Color("outline", bundle: .main)
 

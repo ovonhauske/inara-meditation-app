@@ -26,7 +26,7 @@ struct BottomSheetView: View {
                     }
                     Slider(value: $soundscapeVolume, in: 0...1)
                         .accentColor(AppColors.accentDarker)
-                        .onChange(of: soundscapeVolume) { _ in
+                        .onChange(of: soundscapeVolume) {
                             onVolumeChange()
                         }
                     Button(action: {
@@ -58,7 +58,7 @@ struct BottomSheetView: View {
                     }
                     Slider(value: $narrationVolume, in: 0...1)
                         .accentColor(AppColors.accentDarker)
-                        .onChange(of: narrationVolume) { _ in
+                        .onChange(of: narrationVolume) {
                             onVolumeChange()
                         }
                     Button(action: {

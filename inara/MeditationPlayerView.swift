@@ -84,21 +84,21 @@ struct MeditationPlayerView: View {
                 Text(timeString)
                     .font(.system(size: 16, weight: .semibold))
                     .tracking(2)
-                    .foregroundColor(AppColors.textSecondary)
+                    .foregroundColor(AppColors.tulum)
                     .padding(.vertical, 48)
                 Spacer()
                 HStack {
                     Button(action: { showingBottomSheet = true }) {
                         Image(systemName: "slider.horizontal.3")
                             .font(.system(size: 17, weight: .medium))
-                            .foregroundColor(AppColors.accent)
+                            .foregroundColor(AppColors.tulum)
                             .frame(width: 36, height: 36)
                     }
                     Spacer()
                     Button(action: { print("AirPlay button tapped") }) {
                         Image(systemName: "airplay.audio")
                             .font(.system(size: 17, weight: .medium))
-                            .foregroundColor(AppColors.accent)
+                            .foregroundColor(AppColors.tulum)
                             .frame(width: 36, height: 36)
                     }
                 }
