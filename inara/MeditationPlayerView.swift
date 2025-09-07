@@ -259,21 +259,19 @@ struct MeditationPlayerView: View {
     }
     
     private func setupSoundscape() {
-        let possibleNames = ["soundscape", "Soundscape", "SOUNDSCAPE"]
-        let possibleExtensions = ["mp3", "m4a", "wav", "aac"]
-        var possiblePaths = [folder]
-        possiblePaths.append(contentsOf: ["audio/calming", "audio", "calming", ""]) 
-        for path in possiblePaths {
-            for name in possibleNames {
-                for ext in possibleExtensions {
-                    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: path.isEmpty ? nil : path) {
-                        loadSoundscape(from: url)
-                        configureNowPlayingInfo()
-                        return
-                    }
-                }
-            }
+        let token = categoryToken(from: folder)
+        let baseNames = ["soundscape", "Soundscape", "SOUNDSCAPE"]
+        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
+        let candidates = tokenNames + baseNames
+        let exts = ["mp3", "m4a", "wav", "aac"]
+        let dirs = [folder, "audio/\(token)", "audio", token, ""]
+        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs) ??
+                     findResource(containing: ["soundscape"], inAnyOf: dirs) {
+            loadSoundscape(from: url)
+            configureNowPlayingInfo()
+            return
         }
+        print("Soundscape not found for token=\(token) in \(dirs)")
     }
     
     private func loadSoundscape(from url: URL) {
@@ -296,20 +294,18 @@ struct MeditationPlayerView: View {
     }
     
     private func setupOpeningNarration() {
-        let possibleNames = ["opening", "Opening", "OPENING", "intro", "Intro", "INTRO"]
-        let possibleExtensions = ["mp3", "m4a", "wav", "aac"]
-        var possiblePaths = [folder]
-        possiblePaths.append(contentsOf: ["audio/calming", "audio", "calming", ""]) 
-        for path in possiblePaths {
-            for name in possibleNames {
-                for ext in possibleExtensions {
-                    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: path.isEmpty ? nil : path) {
-                        loadOpeningNarration(from: url)
-                        return
-                    }
-                }
-            }
+        let token = categoryToken(from: folder)
+        let baseNames = ["opening", "Opening", "OPENING", "intro", "Intro", "INTRO"]
+        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
+        let candidates = tokenNames + baseNames
+        let exts = ["mp3", "m4a", "wav", "aac"]
+        let dirs = [folder, "audio/\(token)", "audio", token, ""]
+        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs) ??
+                     findResource(containing: ["opening", "intro"], inAnyOf: dirs) {
+            loadOpeningNarration(from: url)
+            return
         }
+        print("Opening narration not found for token=\(token) in \(dirs)")
     }
     
     private func loadOpeningNarration(from url: URL) {
@@ -323,20 +319,18 @@ struct MeditationPlayerView: View {
     }
     
     private func setupClosingNarration() {
-        let possibleNames = ["closing", "Closing", "CLOSING", "outro", "Outro", "OUTRO", "end", "End", "END"]
-        let possibleExtensions = ["mp3", "m4a", "wav", "aac"]
-        var possiblePaths = [folder]
-        possiblePaths.append(contentsOf: ["audio/calming", "audio", "calming", ""]) 
-        for path in possiblePaths {
-            for name in possibleNames {
-                for ext in possibleExtensions {
-                    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: path.isEmpty ? nil : path) {
-                        loadClosingNarration(from: url)
-                        return
-                    }
-                }
-            }
+        let token = categoryToken(from: folder)
+        let baseNames = ["closing", "Closing", "CLOSING", "outro", "Outro", "OUTRO", "end", "End", "END"]
+        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
+        let candidates = tokenNames + baseNames
+        let exts = ["mp3", "m4a", "wav", "aac"]
+        let dirs = [folder, "audio/\(token)", "audio", token, ""]
+        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs) ??
+                     findResource(containing: ["closing", "outro", "end"], inAnyOf: dirs) {
+            loadClosingNarration(from: url)
+            return
         }
+        print("Closing narration not found for token=\(token) in \(dirs)")
     }
     
     private func loadClosingNarration(from url: URL) {
@@ -473,6 +467,44 @@ struct MeditationPlayerView: View {
         } else {
             narrationTimestamp = 0
         }
+    }
+    
+    // MARK: - Resource discovery resilient to renamed files
+    private func categoryToken(from path: String) -> String {
+        let comps = path.split(separator: "/").map(String.init)
+        return comps.last ?? path
+    }
+    
+    private func findResource(namedAnyOf names: [String], extensions exts: [String], inAnyOf subdirs: [String]) -> URL? {
+        for dir in subdirs {
+            let sub: String? = dir.isEmpty ? nil : dir
+            for name in names {
+                for ext in exts {
+                    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: sub) {
+                        return url
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    private func findResource(containing tokens: [String], inAnyOf subdirs: [String]) -> URL? {
+        let exts = ["mp3", "m4a", "wav", "aac"]
+        for dir in subdirs {
+            let sub: String? = dir.isEmpty ? nil : dir
+            for ext in exts {
+                if let urls = Bundle.main.urls(forResourcesWithExtension: ext, subdirectory: sub) {
+                    if let match = urls.first(where: { url in
+                        let name = url.lastPathComponent.lowercased()
+                        return tokens.contains(where: { token in name.contains(token.lowercased()) })
+                    }) {
+                        return match
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
 
