@@ -24,16 +24,15 @@ struct MeditationDetailView: View {
             VStack(spacing: 16) {
                 HStack{
                     Spacer()
-                    Button(action: onClose) {
+                    Button(action: handleClose) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppColors.tulum)
                             .padding(16)
                     }
                 }
                 .opacity(contentVisible ? 1 : 0)
                 .offset(y: contentVisible ? 0 : 6)
-                .animation(.easeOut(duration: contentFadeDuration).delay(contentFadeDelay), value: contentVisible)
 
                 Image(meta.imageName)
                     .renderingMode(.template)
@@ -57,19 +56,29 @@ struct MeditationDetailView: View {
                 }
                 .opacity(contentVisible ? 1 : 0)
                 .offset(y: contentVisible ? 0 : 8)
-                .animation(.easeOut(duration: contentFadeDuration).delay(contentFadeDelay), value: contentVisible)
             }
         }
         .zIndex(1)
         .transition(AnyTransition.identity)
         .onAppear {
             contentVisible = false
-            withAnimation(.easeOut(duration: contentFadeDuration).delay(contentFadeDelay)) {
-                contentVisible = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + contentFadeDelay) {
+                withAnimation(.easeOut(duration: contentFadeDuration)) {
+                    contentVisible = true
+                }
             }
         }
         .onDisappear {
             contentVisible = false
+        }
+    }
+
+    private func handleClose() {
+        withAnimation(.easeOut(duration: contentFadeDuration)) {
+            contentVisible = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + contentFadeDuration) {
+            onClose()
         }
     }
 }

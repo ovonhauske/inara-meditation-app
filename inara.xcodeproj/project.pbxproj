@@ -75,6 +75,7 @@
 		B096638B2E5D3AD800A8EC91 /* MeditationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationCard.swift; sourceTree = "<group>"; };
 		B09663902E5F2C7200A8EC91 /* cardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cardStyle.swift; sourceTree = "<group>"; };
 		B09663982E64971D00A8EC91 /* MeditationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationDetailView.swift; sourceTree = "<group>"; };
+		B09663A62E6D18E100A8EC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B0B48B072E59FD900035A15C /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
 		B0F4D3EB2E42E4CC0047476A /* inara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inara.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inaraApp.swift; sourceTree = "<group>"; };
@@ -89,7 +90,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B096638A2E5D2EAB00A8EC91 /* New Folder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Folder"; sourceTree = "<group>"; };
+		B096638A2E5D2EAB00A8EC91 /* focus */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = focus; sourceTree = "<group>"; };
+		B09663A42E6D128900A8EC91 /* compassion */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = compassion; sourceTree = "<group>"; };
+		B09663A52E6D129F00A8EC91 /* selfawareness */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = selfawareness; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +123,9 @@
 		B038EEB92E528F7800E3FC96 /* audio */ = {
 			isa = PBXGroup;
 			children = (
-				B096638A2E5D2EAB00A8EC91 /* New Folder */,
+				B09663A52E6D129F00A8EC91 /* selfawareness */,
+				B09663A42E6D128900A8EC91 /* compassion */,
+				B096638A2E5D2EAB00A8EC91 /* focus */,
 				B038EEBA2E528F8100E3FC96 /* calming */,
 			);
 			path = audio;
@@ -159,6 +164,7 @@
 		B0F4D3ED2E42E4CC0047476A /* inara */ = {
 			isa = PBXGroup;
 			children = (
+				B09663A62E6D18E100A8EC91 /* Info.plist */,
 				B038EEB92E528F7800E3FC96 /* audio */,
 				B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */,
 				B09663902E5F2C7200A8EC91 /* cardStyle.swift */,
@@ -217,7 +223,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B096638A2E5D2EAB00A8EC91 /* New Folder */,
+				B096638A2E5D2EAB00A8EC91 /* focus */,
+				B09663A42E6D128900A8EC91 /* compassion */,
+				B09663A52E6D129F00A8EC91 /* selfawareness */,
 			);
 			name = inara;
 			productName = inara;
@@ -238,7 +246,9 @@
 				B0F4D3FD2E42E4CF0047476A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				B096638A2E5D2EAB00A8EC91 /* New Folder */,
+				B096638A2E5D2EAB00A8EC91 /* focus */,
+				B09663A42E6D128900A8EC91 /* compassion */,
+				B09663A52E6D129F00A8EC91 /* selfawareness */,
 			);
 			name = inaraTests;
 			productName = inaraTests;
@@ -259,7 +269,9 @@
 				B0F4D4072E42E4CF0047476A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				B096638A2E5D2EAB00A8EC91 /* New Folder */,
+				B096638A2E5D2EAB00A8EC91 /* focus */,
+				B09663A42E6D128900A8EC91 /* compassion */,
+				B09663A52E6D129F00A8EC91 /* selfawareness */,
 			);
 			name = inaraUITests;
 			productName = inaraUITests;
@@ -540,6 +552,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"inara/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inara/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -568,6 +581,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"inara/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inara/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import MediaPlayer
 
 struct MeditationPlayerView: View {
     @Environment(\.dismiss) private var dismiss
@@ -132,6 +133,8 @@ struct MeditationPlayerView: View {
             Task { 
                 try? await Task.sleep(nanoseconds: 300_000_000) // 300ms
                 setupAudio()
+                setupRemoteCommands()
+                configureNowPlayingInfo()
             }
         }
         .onDisappear {
@@ -139,6 +142,8 @@ struct MeditationPlayerView: View {
             soundscapePlayer?.stop()
             openingNarrationPlayer?.stop()
             closingNarrationPlayer?.stop()
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+            teardownRemoteCommands()
         }
     }
     
@@ -160,9 +165,11 @@ struct MeditationPlayerView: View {
             resumeAudio()
             timeRemaining = max(0, totalDuration - Int(soundscapeTimestamp))
             startTimer()
+            updateNowPlayingPlayback(isPlaying: true)
         } else {
             stopTimer()
             pauseAudio()
+            updateNowPlayingPlayback(isPlaying: false)
         }
     }
     
@@ -205,6 +212,7 @@ struct MeditationPlayerView: View {
             if timeRemaining > 0 {
                 timeRemaining -= 1
                 updateProgress()
+                updateNowPlayingElapsed()
                 let elapsed = Double(totalDuration - timeRemaining)
                 if elapsed >= closingNarrationStartTime && closingNarrationPlayer?.isPlaying == false {
                     playClosingNarration()
@@ -214,6 +222,7 @@ struct MeditationPlayerView: View {
                 isPlaying = false
                 resetProgress()
                 soundscapePlayer?.stop()
+                updateNowPlayingPlayback(isPlaying: false)
             }
         }
     }
@@ -259,6 +268,7 @@ struct MeditationPlayerView: View {
                 for ext in possibleExtensions {
                     if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: path.isEmpty ? nil : path) {
                         loadSoundscape(from: url)
+                        configureNowPlayingInfo()
                         return
                     }
                 }
@@ -278,6 +288,7 @@ struct MeditationPlayerView: View {
                 if closingNarrationDuration > 0 {
                     closingNarrationStartTime = duration - closingNarrationDuration
                 }
+                configureNowPlayingInfo()
             }
         } catch {
             print("Error loading soundscape: \(error)")
@@ -356,6 +367,62 @@ struct MeditationPlayerView: View {
         soundscapePlayer?.volume = Float(soundscapeVolume)
         openingNarrationPlayer?.volume = Float(narrationVolume)
         closingNarrationPlayer?.volume = Float(narrationVolume)
+    }
+
+    // MARK: - Now Playing / Remote Commands
+
+    private func configureNowPlayingInfo() {
+        var info: [String: Any] = [
+            MPMediaItemPropertyTitle: title,
+            MPMediaItemPropertyArtist: "Inara",
+            MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0,
+            MPMediaItemPropertyPlaybackDuration: Double(totalDuration),
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: Double(totalDuration - timeRemaining)
+        ]
+        if let image = UIImage(named: "logo") {
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            info[MPMediaItemPropertyArtwork] = artwork
+        }
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    private func updateNowPlayingPlayback(isPlaying: Bool) {
+        var info = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
+        info[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(totalDuration - timeRemaining)
+        info[MPMediaItemPropertyPlaybackDuration] = Double(totalDuration)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    private func updateNowPlayingElapsed() {
+        var info = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(totalDuration - timeRemaining)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    private func setupRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { _ in
+            if !isPlaying { togglePlayPause() }
+            return .success
+        }
+        commandCenter.pauseCommand.addTarget { _ in
+            if isPlaying { togglePlayPause() }
+            return .success
+        }
+        commandCenter.togglePlayPauseCommand.addTarget { _ in
+            togglePlayPause(); return .success
+        }
+    }
+
+    private func teardownRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.removeTarget(nil)
+        commandCenter.pauseCommand.removeTarget(nil)
+        commandCenter.togglePlayPauseCommand.removeTarget(nil)
     }
     
     private func handleScrub(value: DragGesture.Value) {
