@@ -15,6 +15,7 @@ struct MeditationPlayerView: View {
     @State private var progress: Double = 0.0
     @State private var showingBottomSheet = false
     @State private var isScrubbing = false
+    private var hasStarted: Bool { isPlaying || progress > 0 }
     
     @State private var soundscapePlayer: AVAudioPlayer?
     @State private var openingNarrationPlayer: AVAudioPlayer?
@@ -68,7 +69,14 @@ struct MeditationPlayerView: View {
                                     Image(systemName: buttonIcon)
                                         .font(.system(size: 34, weight: .medium))
                                         .foregroundColor(AppColors.buttonIcon)
+                                        .opacity((!isPlaying && progress == 0) ? 0 : 1)
                                 )
+                        }
+                        if !isPlaying && progress == 0 {
+                            Text("START")
+                                .font(.system(size: 34, weight: .light))
+                                .tracking(4)
+                                .foregroundColor(AppColors.tulum)
                         }
                     }
                     .frame(width: 309, height: 309)
@@ -420,6 +428,7 @@ struct MeditationPlayerView: View {
     }
     
     private func handleScrub(value: DragGesture.Value) {
+        guard hasStarted else { return }
         isScrubbing = true
         let center = CGPoint(x: 140, y: 140)
         let offset = CGPoint(x: value.location.x - center.x, y: value.location.y - center.y)
@@ -435,6 +444,7 @@ struct MeditationPlayerView: View {
     }
     
     private func finishScrub(value: DragGesture.Value) {
+        guard hasStarted else { return }
         isScrubbing = false
         timeRemaining = max(0, totalDuration - Int(soundscapeTimestamp))
         if isPlaying {

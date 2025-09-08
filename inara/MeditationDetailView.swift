@@ -9,6 +9,7 @@ struct MeditationDetailView: View {
     private let contentFadeDelay: Double = 0.6
     private let contentFadeDuration: Double = 0.35
     @State private var contentVisible: Bool = false
+    @State private var showExitConfirm: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -24,7 +25,7 @@ struct MeditationDetailView: View {
             VStack(spacing: 16) {
                 HStack{
                     Spacer()
-                    Button(action: handleClose) {
+                    Button(action: { showExitConfirm = true }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24, weight: .semibold))
                             .foregroundColor(AppColors.tulum)
@@ -70,6 +71,12 @@ struct MeditationDetailView: View {
         }
         .onDisappear {
             contentVisible = false
+        }
+        .alert("Stop meditation?", isPresented: $showExitConfirm) {
+            Button("Cancel", role: .cancel) {}
+            Button("End meditation", role: .destructive) { handleClose() }
+        } message: {
+            Text("Your session will end")
         }
     }
 
