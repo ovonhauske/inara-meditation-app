@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MeditationDetailView: View {
-    let meta: MeditationMeta
+    let meta: MeditationDataModel
     let ns: Namespace.ID
     let onClose: () -> Void
 
@@ -52,7 +52,7 @@ struct MeditationDetailView: View {
                         .font(.body)
                         .foregroundColor(AppColors.tulum)
 
-                    MeditationPlayerView(title: meta.title, folder: meta.folder)
+                    MeditationPlayerView(title: meta.title, folder: meta.audiosrc)
                         .frame(maxHeight: .infinity)
                 }
                 .opacity(contentVisible ? 1 : 0)
@@ -93,9 +93,9 @@ struct MeditationDetailView: View {
 #Preview {
     struct DetailPreview: View {
         @Namespace var ns
-        private let meta = MeditationMeta(
+        private let meta = MeditationDataModel(
             title: "CALM",
-            folder: "audio/calming",
+            audiosrc: "audio/calming",
             subtitle: "Inara",
             imageName: "calming"
             
