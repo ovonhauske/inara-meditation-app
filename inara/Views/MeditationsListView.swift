@@ -8,27 +8,26 @@ struct MeditationsListView: View {
     @State var meditationViewModel: MeditationViewModel = MeditationViewModel()
     
     @State private var selected: MeditationDataModel? = nil
-    @State private var isExpanded: Bool = false
+    @State private var isListVisible: Bool = true
     @Namespace private var cardNamespace
-
-    // Animation constants
-    private let closeSpring = Animation.spring(response: 0.6, dampingFraction: 0.85)
-    private let fadeDuration: Double = 0.6
-    private let deselectDelay: Double = 0.30
-
+    
+    @State private var showingShop = false
+    @State private var shopURL: URL? = URL(string: "https://www.inarasense.com/shop")
+    
     var body: some View {
         // Main content
         ZStack {
-            VStack() {
-                logoView()
+            VStack {
+                LogoView()
                 
                 ForEach(self.meditationViewModel.meditations, id: \.id) { meditation in
                     let isActive = (selected?.id == meditation.id)
-
+                    
                     Button {
+                        withAnimation(AppAnimation.spring) {
                             selected = meditation
-                            isExpanded = true
-                        
+                            isListVisible = false
+                        }
                     } label: {
                         MeditationCard(
                             title: meditation.title,
@@ -42,31 +41,40 @@ struct MeditationsListView: View {
                     .allowsHitTesting(!isActive)         // avoid taps leaking
                     
                 }
+                OutlineButton(text: "Shop Fragrances", icon: "cart") {
+                    showingShop = true
+                }
             }
             .padding(.horizontal, 16)
-            .opacity(isExpanded ? 0 : 1)
-            .disabled(isExpanded)
-            //expanded card
-          if let current = selected {
-                  MeditationDetailView(meta: current, ns: cardNamespace) {
-                      isExpanded = false
-                      DispatchQueue.main.asyncAfter(deadline: .now()) {
-                          withAnimation(closeSpring) {
-                              selected = nil
-                          }
-                      }
-                  }
-                  .zIndex(1)
-              }
-            }
- 
+            .fadeSlideIn(isVisible: $isListVisible, response: 1, damping: 0.85, offsetY: 18)
             
-
+            //expanded card
+            
+            if let current = selected {
+                MeditationDetailView(meta: current, ns: cardNamespace) {
+                    withAnimation(AppAnimation.spring) {
+                        isListVisible = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) {
+                        selected = nil
+                    }
+                }
+                .zIndex(1)
+            }
         }
-    
+        .sheet(isPresented: $showingShop) {
+            if let url = shopURL {
+                SafariView(url: url)
+                    .ignoresSafeArea()
+            } else {
+                Text("Unable to load shop")
+                    .padding()
+            }
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
     
-    
+}
 #Preview {
     MeditationsListView()
 }

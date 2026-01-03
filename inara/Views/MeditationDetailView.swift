@@ -6,72 +6,62 @@ struct MeditationDetailView: View {
     let onClose: () -> Void
 
     // Content fade-in configuration
-    private let contentFadeDelay: Double = 0.6
-    private let contentFadeDuration: Double = 0.35
     @State private var contentVisible: Bool = false
     @State private var showExitConfirm: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            
-            let shape = RoundedRectangle(cornerRadius: 30, style: .continuous)
-            shape
-                .fill(AppColors.surface)
-                .overlay(shape.stroke(AppColors.outline, lineWidth: 1))
-                .matchedGeometryEffect(id: "card.\(meta.id)", in: ns)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea()
-
             VStack(spacing: 16) {
+                HStack{}
+                    .frame(height: 40)
                 HStack{
                     Spacer()
                     Button(action: { showExitConfirm = true }) {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(AppColors.tulum)
+                            .iconStyle()
                             .padding(16)
                     }
                 }
-                .opacity(contentVisible ? 1 : 0)
-                .offset(y: contentVisible ? 0 : 6)
-
-                Image(meta.imageName)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(AppColors.tulum)
-                    .frame(height: 64)
-                    .matchedGeometryEffect(id: "image.\(meta.id)", in: ns)
-
                 Group {
-                    Text(meta.title)
-                        .font(.title3.weight(.semibold))
+                    
+                    Image(meta.imageName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
                         .foregroundColor(AppColors.tulum)
+                        .frame(height: 64)
+                        .matchedGeometryEffect(id: "image.\(meta.id)", in: ns)
+
+                    
+                    Text(meta.title)
+                        .titleStyle()
+                        .matchedGeometryEffect(id: "title.\(meta.id)", in: ns)
 
                     Text(meta.subtitle)
-                        .font(.body)
-                        .foregroundColor(AppColors.tulum)
+                        .subtitleStyle()
+                        .matchedGeometryEffect(id: "subtitle.\(meta.id)", in: ns)
+
 
                     MeditationPlayerView(title: meta.title, folder: meta.audiosrc)
                         .frame(maxHeight: .infinity)
                 }
-                .opacity(contentVisible ? 1 : 0)
-                .offset(y: contentVisible ? 0 : 8)
+                .fadeSlideIn(isVisible: $contentVisible)
             }
         }
+        .background(
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .fill(AppColors.surface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        .stroke(AppColors.outline, lineWidth: 1)
+                )
+                .matchedGeometryEffect(id: "card.\(meta.id)", in: ns)
+        )
+        .frame(maxWidth: .infinity, alignment: .init(horizontal: .center, vertical: .top))
+        .ignoresSafeArea()
         .zIndex(1)
         .transition(AnyTransition.identity)
-        .onAppear {
-            contentVisible = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + contentFadeDelay) {
-                withAnimation(.easeOut(duration: contentFadeDuration)) {
-                    contentVisible = true
-                }
-            }
-        }
-        .onDisappear {
-            contentVisible = false
-        }
+        .springAnimated(value: contentVisible)
         .alert("Stop meditation?", isPresented: $showExitConfirm) {
             Button("Cancel", role: .cancel) {}
             Button("End meditation", role: .destructive) { handleClose() }
@@ -81,10 +71,8 @@ struct MeditationDetailView: View {
     }
 
     private func handleClose() {
-        withAnimation(.easeOut(duration: contentFadeDuration)) {
-            contentVisible = false
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + contentFadeDuration) {
+        contentVisible = false
+        withAnimation(AppAnimation.spring) {
             onClose()
         }
     }
@@ -105,7 +93,6 @@ struct MeditationDetailView: View {
             ZStack {
                 AppColors.surface.ignoresSafeArea()
                 MeditationDetailView(meta: meta, ns: ns) { }
-                    .padding()
             }
         }
     }

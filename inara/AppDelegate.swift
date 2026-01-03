@@ -17,6 +17,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+        print("Firebase configured: \(FirebaseApp.app() != nil)")
         return true
     }
 }
+

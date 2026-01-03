@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct OnboardingHScrollCArd: View {
+struct OnboardingHScrollCard: View {
     var title:String = "Improve your state of mind"
     var subtitle: String = "Meditations to get calm, confidence. Be more balanced, or open your heart."
+    var imageName: String = "hscroll1"
     
     var body: some View {
         VStack(spacing: 14) {
-            Image("hscroll1")
+            Image(imageName)
                 .frame(width: 200,height: 200)
             
             VStack(spacing:4) {
@@ -30,5 +31,5 @@ struct OnboardingHScrollCArd: View {
 }
 
 #Preview {
-    OnboardingHScrollCArd(title: "Yoyoyoyoy")
+    OnboardingHScrollCard(title: "Yoyoyoyoy")
 }

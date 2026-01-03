@@ -22,11 +22,11 @@ struct AppColors {
 struct AppTypography {
     static let titleSize: CGFloat = 20
     static let titleKerning: CGFloat = 1
-    static let titleWeight: Font.Weight = .semibold
+    static let titleWeight: Font.Weight = .regular
     
     static let subtitleSize: CGFloat = 15
     static let subtitleKerning: CGFloat = 0.75
-    static let subtitleWeight: Font.Weight = .medium
+    static let subtitleWeight: Font.Weight = .regular
     
     static let startButtonSize: CGFloat = 34
     static let startButtonTracking: CGFloat = 4

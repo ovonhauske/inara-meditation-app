@@ -7,14 +7,6 @@ struct MeditationCard: View {
     let id: UUID
     let ns: Namespace.ID
     
-    init(title: String, subtitle: String, imageName: String, id: UUID, ns: Namespace.ID) {
-           self.title = title
-           self.subtitle = subtitle
-           self.imageName = imageName
-           self.id = id
-           self.ns = ns
-       }
-    
     var body: some View {
         
         VStack(spacing: 4) {
@@ -27,30 +19,31 @@ struct MeditationCard: View {
                 .matchedGeometryEffect(id: "image.\(id)", in: ns)
                         
             Text(title)
-                .font(.body)
-                .foregroundColor(AppColors.tulum)
+                .titleStyle()
                 .multilineTextAlignment(.center)
-                .textCase(.uppercase)
-                .kerning(2)
-                
-            
+                .matchedGeometryEffect(id: "title.\(id)", in: ns)
             
             Text(subtitle)
-                .font(.caption)
-                .foregroundColor(AppColors.tulum)
+                .subtitleStyle()
                 .multilineTextAlignment(.center)
+                .matchedGeometryEffect(id: "subtitle.\(id)", in: ns)
+
         }
         .padding(24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.surface)
-        .cornerRadius(30)
-        .overlay(
-            RoundedRectangle(cornerRadius: 30)
-                .inset(by: 1) // optional: pull the border slightly inward
-                .stroke(AppColors.outline, lineWidth: 1)
+        .background(
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .fill(AppColors.surface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        .stroke(AppColors.outline, lineWidth: 1)
+                )
+                .matchedGeometryEffect(id: "card.\(id)", in: ns, isSource: true)
         )
 
     }
+    
+    
 
 }
 

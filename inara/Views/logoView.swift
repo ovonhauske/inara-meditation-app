@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct logoView: View {
+struct LogoView: View {
     var body: some View {
         Image("logo")
             .renderingMode(.template)
@@ -20,5 +20,5 @@ struct logoView: View {
 }
 
 #Preview {
-    logoView()
+    LogoView()
 }

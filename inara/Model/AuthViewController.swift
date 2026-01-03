@@ -1,8 +1,23 @@
-//
-//  AuthViewController.swift
-//  inara
-//
-//  Created by Oscar von Hauske on 1/1/26.
-//
+import UIKit
+import AuthenticationServices
 
-import Foundation
+class AuthViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupSignInButton()
+    }
+    
+    func setupSignInButton() {
+        let button = ASAuthorizationAppleIDButton()
+        button.center = view.center
+        view.addSubview(button)
+        button.addTarget(self, action: #selector(handleSignInPress), for: .touchUpInside)
+    }
+    
+    @objc func handleSignInPress() {
+        performSegue(withIdentifier: "kAuthToContactsSegueId",
+                     sender: nil)
+    }
+}
+
+
