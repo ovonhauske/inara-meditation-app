@@ -1,3 +1,11 @@
+//
+//  SettingsViewModel.swift
+//  inara
+//
+//  Created by Oscar von Hauske on 1/4/26.
+//
+
+
 import Foundation
 import Combine
 import FirebaseAuth
@@ -5,7 +13,7 @@ import FirebaseFirestore
 
 @MainActor
 final class SettingsViewModel: ObservableObject {
-    @Published var profile: UserProfile = .init()
+    @Published var profile: UserProfileModel = .init()
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -22,9 +30,10 @@ final class SettingsViewModel: ObservableObject {
         do {
             let snapshot = try await db.collection("users").document(uid).getDocument()
             if let data = snapshot.data() {
-                let name = data["name"] as? String ?? ""
+                let name = data["displayName"] as? String ?? ""
                 let email = data["email"] as? String ?? ""
-                self.profile = UserProfile(id: uid, name: name, email: email)
+                let date = (data["lastMeditationDate"] as? Timestamp)?.dateValue()
+                self.profile = UserProfileModel(id: uid, name: name, email: email, lastMeditationDate: date)
             } else {
                 self.errorMessage = "No profile found."
             }
@@ -47,11 +56,37 @@ final class SettingsViewModel: ObservableObject {
                 return
             }
             guard let data = snapshot?.data() else { return }
-            let name = data["name"] as? String ?? ""
+            let name = data["displayName"] as? String ?? ""
             let email = data["email"] as? String ?? ""
+            let date = (data["lastMeditationDate"] as? Timestamp)?.dateValue()
             Task { @MainActor in
-                self.profile = UserProfile(id: uid, name: name, email: email)
+                self.profile = UserProfileModel(id: uid, name: name, email: email, lastMeditationDate: date)
             }
         }
+    }
+
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+    }
+
+    func deleteAccount() async {
+        guard let user = Auth.auth().currentUser else { return }
+        let uid = user.uid
+        
+        isLoading = true
+        do {
+            // Delete user document first
+            try await db.collection("users").document(uid).delete()
+            
+            // Delete Auth account
+            try await user.delete()
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+        isLoading = false
     }
 }

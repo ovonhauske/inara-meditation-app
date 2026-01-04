@@ -56,7 +56,15 @@ final class MeditationPlayerViewModel: ObservableObject {
     }
 
     func togglePlayPause() {
-        if isPlaying { engine.pause() } else { engine.play() }
+        if isPlaying { 
+            engine.pause() 
+        } else { 
+            engine.play() 
+            // Track last meditation session
+            Task {
+                try? await ProfileService.updateLastMeditationDate()
+            }
+        }
     }
 
     func updateVolumes() {

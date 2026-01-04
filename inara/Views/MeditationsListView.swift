@@ -13,6 +13,7 @@ struct MeditationsListView: View {
     
     @State private var showingShop = false
     @State private var shopURL: URL? = URL(string: "https://www.inarasense.com/shop")
+    @State private var showingSettings = false
     
     var body: some View {
         // Main content
@@ -41,8 +42,18 @@ struct MeditationsListView: View {
                     .allowsHitTesting(!isActive)         // avoid taps leaking
                     
                 }
-                OutlineButton(text: "Shop Fragrances", icon: "cart") {
-                    showingShop = true
+                HStack {
+                    OutlineButton(text: "Shop Fragrances", icon: "cart") {
+                        showingShop = true
+                    }
+                    OutlineButton(
+                        icon: "person",
+                        url: nil,
+                        action: {
+                            showingSettings = true
+                        },
+                        collapse: true
+                    )
                 }
             }
             .padding(.horizontal, 16)
@@ -71,10 +82,23 @@ struct MeditationsListView: View {
                     .padding()
             }
         }
-        .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: $showingSettings) {
+            NavigationStack {
+                SettingsView()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: { showingSettings = false }) {
+                                Image(systemName: "xmark")
+                            }
+                        }
+                    }
+            }
+        }
+        
     }
     
 }
 #Preview {
     MeditationsListView()
 }
+

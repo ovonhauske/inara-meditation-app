@@ -14,12 +14,13 @@ import FirebaseFirestore
 
 struct AuthView: View {
     @State private var currentNonce: String? = nil
+    @State private var showSignInError = false
+    @Environment(\.colorScheme) private var colorScheme
     var onSignIn: (() -> Void)? = nil
     var body: some View {
         VStack{
             LogoView()
             OnboardingHScroll()
-            // TODO: Integrate real Sign in with Apple. The native button type requires AuthenticationServices and a wrapper.
             SignInWithAppleButton(.signIn) { request in
                 let nonce = randomNonceString()
                 currentNonce = nonce
@@ -82,23 +83,26 @@ struct AuthView: View {
                             onSignIn?()
                         } catch {
                             print("Firebase Apple Sign-In: Firebase error \(error.localizedDescription)")
+                            showSignInError = true
                         }
                     }
                 case .failure(let error):
                     print("Could not authenticate: \(error.localizedDescription)")
+                    showSignInError = true
                 }
             }
+            .signInWithAppleButtonStyle(colorScheme == .dark ? .black : .white)
             .frame(maxWidth: .infinity, maxHeight: 50)
             .cornerRadius(99)
             .padding(.top, 8)
+            .padding(.horizontal, 40)
+            .alert("Sign in failed", isPresented: $showSignInError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Please try again later")
+            }
             
-//            OutlineButton(text: "Sign in with Apple", icon: "apple.logo") {
-//                print("AuthView: sign-in tapped")
-//                // TODO: Hook up real authentication later; for now just advance
-//                onSignIn?()
-//            }
         }
-        .padding(.horizontal, 40)
     }
 }
 

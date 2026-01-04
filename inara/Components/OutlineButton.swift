@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct OutlineButton: View {
-    var text: String
-    var icon: String
+    var text: String?
+    var icon: String?
     var url: URL? = nil
     var action: (() -> Void)? = nil
+    var collapse: Bool = false
     
     @Environment(\.openURL) private var openURL
     
@@ -25,10 +26,18 @@ struct OutlineButton: View {
             }
         } label: {
             HStack(spacing: 8) {
-                Image(systemName: icon)
-                Text(text)
+                
+                
+                if let buttonIcon = icon {
+                    Image(systemName: buttonIcon)
+                }
+                
+                
+                if let buttonText = text{
+                    Text(buttonText)
+                }
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: collapse ? nil : .infinity)
             .padding(.vertical, 14)
             .padding(.horizontal, 10)
             .contentShape(Rectangle())
@@ -51,7 +60,14 @@ struct OutlineButton: View {
         OutlineButton(text:"Continue with Apple", icon: "apple.logo") {
             print("Tapped Apple sign-in")
         }
+        OutlineButton(text:"Continue with Apple", icon: "apple.logo", url:nil) {
+            print("Tapped Apple sign-in (collapsed)")
+        }
         OutlineButton(text:"Shop", icon: "cart", url: URL(string: "https://www.inarasense.com/shop"))
+        OutlineButton( icon: "cart", url: URL(string: "https://www.inarasense.com/shop"))
     }
+    OutlineButton(text:"Shop",  url: URL(string: "https://www.inarasense.com/shop"), collapse: true)
+    OutlineButton(icon: "apple.logo",  collapse: true)
+    
     .padding()
 }

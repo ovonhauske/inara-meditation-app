@@ -47,6 +47,18 @@
 		B09A721E2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */; };
 		B09A721F2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */; };
 		B0B48B082E59FD900035A15C /* color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B48B072E59FD900035A15C /* color.xcassets */; };
+		B0CCAD292F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
+		B0CCAD2A2F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
+		B0CCAD2B2F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
+		B0CCAD392F0AF9AF00B11D9D /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */; };
+		B0CCAD3A2F0AF9AF00B11D9D /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */; };
+		B0CCAD3B2F0AF9AF00B11D9D /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */; };
+		B0CCAD3D2F0B018B00B11D9D /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */; };
+		B0CCAD3E2F0B018B00B11D9D /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */; };
+		B0CCAD3F2F0B018B00B11D9D /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */; };
+		B0CCAD412F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
+		B0CCAD422F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
+		B0CCAD432F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
 		B0E2BE7E2F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
 		B0E2BE7F2F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
 		B0E2BE802F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
@@ -79,9 +91,6 @@
 		B0E2BEC02F08A5F700C51B34 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0E2BEBD2F08A5F700C51B34 /* GoogleService-Info.plist */; };
 		B0E2BEC42F08A78500C51B34 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0E2BEC22F08A78500C51B34 /* Info.plist */; };
 		B0E2BEC52F08A78500C51B34 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0E2BEC22F08A78500C51B34 /* Info.plist */; };
-		B0E2BEC72F099F8900C51B34 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BEC62F099F8900C51B34 /* ProfileService.swift */; };
-		B0E2BEC82F099F8900C51B34 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BEC62F099F8900C51B34 /* ProfileService.swift */; };
-		B0E2BEC92F099F8900C51B34 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BEC62F099F8900C51B34 /* ProfileService.swift */; };
 		B0F4D3EF2E42E4CC0047476A /* inaraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */; };
 		B0F4D3F12E42E4CC0047476A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F4D3F02E42E4CC0047476A /* ContentView.swift */; };
 		B0F4D3F32E42E4CE0047476A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0F4D3F22E42E4CE0047476A /* Assets.xcassets */; };
@@ -124,6 +133,10 @@
 		B09A72142F05B0A4000BF231 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationPlayerViewModel.swift; sourceTree = "<group>"; };
 		B0B48B072E59FD900035A15C /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
+		B0CCAD282F0AE27200B11D9D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileModel.swift; sourceTree = "<group>"; };
+		B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineButton.swift; sourceTree = "<group>"; };
 		B0E2BE812F062E3900C51B34 /* OnboardingHScrollCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHScrollCard.swift; sourceTree = "<group>"; };
 		B0E2BE852F06332900C51B34 /* OnboardingHScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHScroll.swift; sourceTree = "<group>"; };
@@ -135,7 +148,6 @@
 		B0E2BEB92F08A52200C51B34 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0E2BEBD2F08A5F700C51B34 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B0E2BEC22F08A78500C51B34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B0E2BEC62F099F8900C51B34 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		B0F4D3EB2E42E4CC0047476A /* inara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inara.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F4D3EE2E42E4CC0047476A /* inaraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inaraApp.swift; sourceTree = "<group>"; };
 		B0F4D3F02E42E4CC0047476A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -183,6 +195,7 @@
 		B08B44772EFA5283001BD5F7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */,
 				B08B44672EF8DAF1001BD5F7 /* MeditationsDataModel.swift */,
 				B09A70992F0100B5000BF231 /* MeditationAudioEngine.swift */,
 				B0E2BE952F06C94800C51B34 /* OnboardingHScrollDataModel.swift */,
@@ -201,7 +214,7 @@
 				B09A72142F05B0A4000BF231 /* LogoView.swift */,
 				B0E2BE992F06E82300C51B34 /* AuthView.swift */,
 				B0E2BE9D2F071F3500C51B34 /* SafariView.swift */,
-				B0E2BEC62F099F8900C51B34 /* ProfileService.swift */,
+				B0CCAD282F0AE27200B11D9D /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,11 +234,20 @@
 		B09A70942F004F4C000BF231 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */,
 				B0E2BE892F06C79400C51B34 /* OnboardingHScrollViewModel.swift */,
 				B09A70952F00506C000BF231 /* MeditationViewModel.swift */,
 				B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B0CCAD382F0AF9AF00B11D9D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		B0F4D3E22E42E4CC0047476A = {
@@ -253,6 +275,7 @@
 		B0F4D3ED2E42E4CC0047476A /* inara */ = {
 			isa = PBXGroup;
 			children = (
+				B0CCAD382F0AF9AF00B11D9D /* Services */,
 				B0E2BEA52F0741D600C51B34 /* inara.entitlements */,
 				B09A70942F004F4C000BF231 /* ViewModel */,
 				B08B44792EFA52AA001BD5F7 /* Components */,
@@ -449,13 +472,14 @@
 			files = (
 				B0E2BEBA2F08A52200C51B34 /* AppDelegate.swift in Sources */,
 				B0F4D3F12E42E4CC0047476A /* ContentView.swift in Sources */,
+				B0CCAD2B2F0AE27200B11D9D /* SettingsView.swift in Sources */,
 				B09A721D2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */,
 				B096638D2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
 				B0F4D3EF2E42E4CC0047476A /* inaraApp.swift in Sources */,
 				B09A720F2F05B05D000BF231 /* AppTheme.swift in Sources */,
 				B0E2BE962F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
 				B0E2BE9B2F06E82300C51B34 /* AuthView.swift in Sources */,
-				B0E2BEC72F099F8900C51B34 /* ProfileService.swift in Sources */,
+				B0CCAD392F0AF9AF00B11D9D /* ProfileService.swift in Sources */,
 				B0E2BE7F2F060CCA00C51B34 /* OutlineButton.swift in Sources */,
 				B08B44682EF8DAF1001BD5F7 /* MeditationsDataModel.swift in Sources */,
 				B09A709A2F0100B5000BF231 /* MeditationAudioEngine.swift in Sources */,
@@ -467,7 +491,9 @@
 				B09A72162F05B0A4000BF231 /* LogoView.swift in Sources */,
 				B0E2BE822F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B0E2BE8C2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
+				B0CCAD412F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B096639A2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
+				B0CCAD3E2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
 				B09663872E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B09663882E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 			);
@@ -483,9 +509,11 @@
 				B09A70982F00506C000BF231 /* MeditationViewModel.swift in Sources */,
 				B0E2BE9F2F071F3500C51B34 /* SafariView.swift in Sources */,
 				B09A72112F05B094000BF231 /* VolumeSlider.swift in Sources */,
+				B0CCAD2A2F0AE27200B11D9D /* SettingsView.swift in Sources */,
 				B09663832E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B09A721E2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */,
 				B096638E2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
+				B0CCAD422F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B0E2BE9C2F06E82300C51B34 /* AuthView.swift in Sources */,
 				B0E2BE832F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B09A709B2F0100B5000BF231 /* MeditationAudioEngine.swift in Sources */,
@@ -493,12 +521,13 @@
 				B0E2BE7E2F060CCA00C51B34 /* OutlineButton.swift in Sources */,
 				B0E2BE872F06332900C51B34 /* OnboardingHScroll.swift in Sources */,
 				B09A72172F05B0A4000BF231 /* LogoView.swift in Sources */,
+				B0CCAD3A2F0AF9AF00B11D9D /* ProfileService.swift in Sources */,
 				B0E2BE982F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
 				B0E2BE8B2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
+				B0CCAD3F2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
 				B0E2BEBC2F08A52200C51B34 /* AppDelegate.swift in Sources */,
 				B09663842E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 				B0F4D4002E42E4CF0047476A /* inaraTests.swift in Sources */,
-				B0E2BEC92F099F8900C51B34 /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,13 +537,14 @@
 			files = (
 				B0E2BEBB2F08A52200C51B34 /* AppDelegate.swift in Sources */,
 				B0F4D40C2E42E4CF0047476A /* inaraUITestsLaunchTests.swift in Sources */,
+				B0CCAD292F0AE27200B11D9D /* SettingsView.swift in Sources */,
 				B09A721F2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */,
 				B096638C2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
 				B0F4D40A2E42E4CF0047476A /* inaraUITests.swift in Sources */,
 				B09A720E2F05B05D000BF231 /* AppTheme.swift in Sources */,
 				B0E2BE972F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
 				B0E2BE9A2F06E82300C51B34 /* AuthView.swift in Sources */,
-				B0E2BEC82F099F8900C51B34 /* ProfileService.swift in Sources */,
+				B0CCAD3B2F0AF9AF00B11D9D /* ProfileService.swift in Sources */,
 				B0E2BE802F060CCA00C51B34 /* OutlineButton.swift in Sources */,
 				B08B446A2EF8DAF1001BD5F7 /* MeditationsDataModel.swift in Sources */,
 				B09A709C2F0100B5000BF231 /* MeditationAudioEngine.swift in Sources */,
@@ -526,7 +556,9 @@
 				B09A72152F05B0A4000BF231 /* LogoView.swift in Sources */,
 				B0E2BE842F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B0E2BE8A2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
+				B0CCAD432F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B096639B2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
+				B0CCAD3D2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
 				B096637F2E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
 				B09663802E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 			);
@@ -687,7 +719,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -697,7 +729,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 			};
 			name = Debug;
 		};
@@ -717,7 +749,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -727,7 +759,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 			};
 			name = Release;
 		};
@@ -744,7 +776,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inara";
 			};
 			name = Debug;
@@ -762,7 +794,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inara";
 			};
 			name = Release;
@@ -778,7 +810,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				TEST_TARGET_NAME = inara;
 			};
 			name = Debug;
@@ -794,7 +826,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				TEST_TARGET_NAME = inara;
 			};
 			name = Release;

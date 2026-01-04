@@ -1,1 +1,0 @@
-                AppColors.surface.ignoresSafeArea()
