@@ -5,7 +5,7 @@ import SwiftUI
 /// A view that shows all the meditations available as tappable cards
 struct MeditationsListView: View {
     
-    @State var meditationViewModel: MeditationViewModel = MeditationViewModel()
+    @StateObject private var meditationViewModel: MeditationViewModel = MeditationViewModel()
     
     @State private var selected: MeditationDataModel? = nil
     @State private var isListVisible: Bool = true

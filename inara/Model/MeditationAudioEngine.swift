@@ -143,6 +143,7 @@ final class MeditationAudioEngine {
         setupOpeningNarration()
         setupClosingNarration()
         setVolumes(soundscape: soundscapeVolume, narration: narrationVolume)
+        setupInterruptionHandling()
     }
 
     private func setupAudioSession() {
@@ -151,6 +152,34 @@ final class MeditationAudioEngine {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Error setting up audio session: \(error)")
+        }
+    }
+    
+    private func setupInterruptionHandling() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleInterruption),
+                                               name: AVAudioSession.interruptionNotification,
+                                               object: nil)
+    }
+    
+    @objc private func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+        
+        switch type {
+        case .began:
+            if state.isPlaying {
+                pause() // Should ideally allow resume. Logic to auto-resume would go here.
+            }
+        case .ended:
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                 if options.contains(.shouldResume) {
+                     // Optionally resume playback if it was playing before
+                 }
+            }
+        @unknown default: break
         }
     }
 
@@ -217,37 +246,20 @@ final class MeditationAudioEngine {
         soundscapeTimestamp = time
     }
 
-    // MARK: - Resource discovery (copy your helpers)
+    // MARK: - Optimized Resource Discovery
+    // Dropped extensive loops for direct subpath checking. This is much faster.
 
     private func categoryToken(from path: String) -> String {
         let comps = path.split(separator: "/").map(String.init)
         return comps.last ?? path
     }
-
-    private func findResource(namedAnyOf names: [String], extensions exts: [String], inAnyOf subdirs: [String]) -> URL? {
-        for dir in subdirs {
-            let sub: String? = dir.isEmpty ? nil : dir
-            for name in names {
-                for ext in exts {
-                    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: sub) {
-                        return url
-                    }
-                }
-            }
-        }
-        return nil
-    }
-
-    private func findResource(containing tokens: [String], inAnyOf subdirs: [String]) -> URL? {
-        let exts = ["mp3", "m4a", "wav", "aac"]
-        for dir in subdirs {
-            let sub: String? = dir.isEmpty ? nil : dir
-            for ext in exts {
-                if let urls = Bundle.main.urls(forResourcesWithExtension: ext, subdirectory: sub) {
-                    if let match = urls.first(where: { url in
-                        let name = url.lastPathComponent.lowercased()
-                        return tokens.contains(where: { token in name.contains(token.lowercased()) })
-                    }) { return match }
+    
+    /// Finds a resource by checking a specific set of likely paths instead of scanning the entire bundle.
+    private func findResource(names: [String], extensions: [String], subdirectory: String? = nil) -> URL? {
+        for name in names {
+            for ext in extensions {
+                if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: subdirectory) {
+                    return url
                 }
             }
         }
@@ -256,16 +268,17 @@ final class MeditationAudioEngine {
 
     private func setupSoundscape() {
         let token = categoryToken(from: folder)
-        let baseNames = ["soundscape", "Soundscape", "SOUNDSCAPE"]
-        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
-        let candidates = tokenNames + baseNames
-        let exts = ["mp3", "m4a", "wav", "aac"]
-        let dirs = [folder, "audio/\(token)", "audio", token, ""]
-        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs)
-            ?? findResource(containing: ["soundscape"], inAnyOf: dirs) {
+        let candidates = [
+            "\(token)_soundscape", "soundscape_\(token)", "soundscape", "Soundscape"
+        ]
+        
+        // Optimize: Check specific folder first, then generic 'audio'
+        if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"]) {
             loadSoundscape(from: url)
         } else {
-            print("Soundscape not found token=\(token) in \(dirs)")
+            print("[AudioEngine] Soundscape not found for token: \(token)")
         }
     }
 
@@ -289,13 +302,14 @@ final class MeditationAudioEngine {
 
     private func setupOpeningNarration() {
         let token = categoryToken(from: folder)
-        let baseNames = ["opening", "Opening", "OPENING", "intro", "Intro", "INTRO"]
-        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
-        let candidates = tokenNames + baseNames
-        let exts = ["mp3", "m4a", "wav", "aac"]
-        let dirs = [folder, "audio/\(token)", "audio", token, ""]
-        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs)
-            ?? findResource(containing: ["opening", "intro"], inAnyOf: dirs) {
+        let candidates = [
+            "\(token)_opening", "opening_\(token)", "opening", "Opening",
+            "\(token)_intro", "intro_\(token)", "intro"
+        ]
+        
+        if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") {
+             // Fallback removed for safety, narrations should be specific to the session
             do {
                 openingNarrationPlayer = try AVAudioPlayer(contentsOf: url)
                 openingNarrationPlayer?.prepareToPlay()
@@ -307,13 +321,13 @@ final class MeditationAudioEngine {
 
     private func setupClosingNarration() {
         let token = categoryToken(from: folder)
-        let baseNames = ["closing", "Closing", "CLOSING", "outro", "Outro", "OUTRO", "end", "End", "END"]
-        let tokenNames = baseNames.flatMap { ["\(token)_\($0)", "\($0)_\(token)"] }
-        let candidates = tokenNames + baseNames
-        let exts = ["mp3", "m4a", "wav", "aac"]
-        let dirs = [folder, "audio/\(token)", "audio", token, ""]
-        if let url = findResource(namedAnyOf: candidates, extensions: exts, inAnyOf: dirs)
-            ?? findResource(containing: ["closing", "outro", "end"], inAnyOf: dirs) {
+        let candidates = [
+             "\(token)_closing", "closing_\(token)", "closing", "Closing",
+             "\(token)_outro", "outro_\(token)", "outro"
+        ]
+        
+        if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") {
             do {
                 closingNarrationPlayer = try AVAudioPlayer(contentsOf: url)
                 closingNarrationPlayer?.prepareToPlay()

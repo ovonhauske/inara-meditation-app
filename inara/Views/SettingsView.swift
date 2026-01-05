@@ -18,20 +18,20 @@ struct SettingsView: View {
         ZStack{
             AppColors.surface.ignoresSafeArea()
             VStack {
-                Image("hscroll1")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-                if let date = viewModel.profile.lastMeditationDate {
-                    Text("Last meditation: \(date.formatted(.relative(presentation: .named)))")
-                        .font(.caption)
-                        .foregroundStyle(AppColors.tulum)
-                } else {
-                    Text("Last meditation: Never")
-                        .font(.caption)
-                        .foregroundStyle(AppColors.tulum)
-                }
                 List{
+                    Image("hscroll1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150, height: 150)
+                    if let date = viewModel.profile.lastMeditationDate {
+                        Text("Last meditation: \(date.formatted(.relative(presentation: .named)))")
+                            .font(.body)
+                            .foregroundStyle(AppColors.tulum)
+                    } else {
+                        Text("Last meditation: Never")
+                            .font(.body)
+                            .foregroundStyle(AppColors.tulum)
+                    }
                     Group{
                         HStack {
                             Text("Name")

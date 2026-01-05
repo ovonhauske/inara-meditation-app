@@ -6,14 +6,14 @@
 //
 
 import Foundation
+import Observation
 
-@Observable
-class MeditationViewModel {
-    var meditations: [MeditationDataModel] = [
+class MeditationViewModel: ObservableObject {
+    @Published var meditations: [MeditationDataModel] = [
         MeditationDataModel(
             title: "Calm",
             audiosrc: "audio/calming",
-            subtitle: "Inara",
+            subtitle: "INARA",
             imageName: "calming"
         ),
         MeditationDataModel(
