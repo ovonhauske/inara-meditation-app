@@ -12,7 +12,26 @@ import AVFoundation
 import MediaPlayer
 import UIKit
 
-final class MeditationAudioEngine {
+extension MeditationAudioEngine: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        DispatchQueue.main.async {
+            print("[AudioEngine] Delegate called on Main Thread: \(Thread.isMainThread)")
+            if player == self.bellPlayer && flag {
+                print("[AudioEngine] Bell finished. Starting meditation.")
+                self.hasPlayedBell = true
+                self.bellPlayer?.stop()
+                self.bellPlayer?.prepareToPlay() // Reset for next time
+                
+                // Start the main content
+                self.resumeAudio()
+                self.startTimer()
+                self.updateNowPlayingPlayback(isPlaying: true)
+            }
+        }
+    }
+}
+
+final class MeditationAudioEngine: NSObject { // Inherit NSObject for Delegate
     struct State {
         var isPlaying: Bool = false
         var timeRemaining: Int = 0
@@ -32,6 +51,9 @@ final class MeditationAudioEngine {
     private var soundscapePlayer: AVAudioPlayer?
     private var openingNarrationPlayer: AVAudioPlayer?
     private var closingNarrationPlayer: AVAudioPlayer?
+    private var bellPlayer: AVAudioPlayer?
+    
+    private var hasPlayedBell: Bool = false
 
     private var soundscapeVolume: Double = 0.5
     private var narrationVolume: Double = 0.5
@@ -58,25 +80,47 @@ final class MeditationAudioEngine {
         soundscapePlayer?.stop()
         openingNarrationPlayer?.stop()
         closingNarrationPlayer?.stop()
+        bellPlayer?.stop()
+        
+        hasPlayedBell = false // Reset bell state on stop
+        
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
         teardownRemoteCommands()
     }
 
     func play() {
         state.isPlaying = true
-        resumeAudio()
-        startTimer()
-        updateNowPlayingPlayback(isPlaying: true)
+        
+        // Logic: Try to play bell first if it hasn't played
+        if !hasPlayedBell, let bell = bellPlayer {
+            print("[AudioEngine] Playing Bell...")
+            bell.play()
+            updateNowPlayingPlayback(isPlaying: true)
+        } else {
+            // Bell already played or doesn't exist, play main content
+            resumeAudio()
+            startTimer()
+            updateNowPlayingPlayback(isPlaying: true)
+        }
     }
 
     func pause() {
         state.isPlaying = false
         stopTimer()
-        pauseAudio()
+        pauseAudio() // This now also needs to pause bell
         updateNowPlayingPlayback(isPlaying: false)
     }
 
     func seek(to time: TimeInterval) {
+        // If we seek to 0, we reset the bell so it plays again on start.
+        // If we seek > 0, we assume the user skipped the intro.
+        if time < 1.0 {
+            hasPlayedBell = false
+        } else {
+            hasPlayedBell = true
+            bellPlayer?.stop()
+        }
+        
         seekInternal(to: time, autoPlay: state.isPlaying)
         publishTimeFrom(time: time)
         updateNowPlayingElapsed()
@@ -94,6 +138,8 @@ final class MeditationAudioEngine {
         soundscapePlayer?.volume = Float(soundscapeVolume)
         openingNarrationPlayer?.volume = Float(narrationVolume)
         closingNarrationPlayer?.volume = Float(narrationVolume)
+        // Bell usually distinct, keep full or match narration? Let's match narration.
+        bellPlayer?.volume = Float(narrationVolume)
     }
 
     // MARK: - Timer / state publishing
@@ -142,6 +188,7 @@ final class MeditationAudioEngine {
         setupSoundscape()
         setupOpeningNarration()
         setupClosingNarration()
+        setupBell()
         setVolumes(soundscape: soundscapeVolume, narration: narrationVolume)
         setupInterruptionHandling()
     }
@@ -184,6 +231,12 @@ final class MeditationAudioEngine {
     }
 
     private func pauseAudio() {
+        // Bell Logic
+        if let bell = bellPlayer, bell.isPlaying {
+            bell.pause()
+            // We return here? No, let's pause everything just in case something got out of sync
+        }
+        
         if let scape = soundscapePlayer {
             soundscapeTimestamp = scape.currentTime
             scape.pause()
@@ -200,6 +253,11 @@ final class MeditationAudioEngine {
     }
 
     private func resumeAudio() {
+        print("[AudioEngine] resumeAudio. ScapeTime: \(soundscapeTimestamp), ClosingStart: \(closingNarrationStartTime)")
+        
+        // Safety: Re-apply volumes ensure not muted
+        setVolumes(soundscape: soundscapeVolume, narration: narrationVolume)
+        
         if let scape = soundscapePlayer {
             scape.currentTime = soundscapeTimestamp
             scape.play()
@@ -207,15 +265,23 @@ final class MeditationAudioEngine {
 
         // narrations follow your same rules
         if let opening = openingNarrationPlayer,
-           opening.duration > 0,
-           soundscapeTimestamp < closingNarrationStartTime {
-            opening.currentTime = narrationTimestamp
-            opening.play()
+           opening.duration > 0 {
+            
+            if soundscapeTimestamp < closingNarrationStartTime {
+                print("[AudioEngine] Playing Opening Narration")
+                opening.currentTime = narrationTimestamp
+                opening.play()
+            } else {
+                print("[AudioEngine] Skipping Opening: Past closing start")
+            }
+        } else {
+            print("[AudioEngine] No opening player or duration 0")
         }
 
         if let closing = closingNarrationPlayer,
            closing.duration > 0,
            soundscapeTimestamp >= closingNarrationStartTime {
+            print("[AudioEngine] Playing Closing Narration")
             closing.currentTime = narrationTimestamp
             closing.play()
         }
@@ -256,10 +322,14 @@ final class MeditationAudioEngine {
     
     /// Finds a resource by checking a specific set of likely paths instead of scanning the entire bundle.
     private func findResource(names: [String], extensions: [String], subdirectory: String? = nil) -> URL? {
+        print("[AudioEngine] Searching in subdir: \(subdirectory ?? "root")")
         for name in names {
             for ext in extensions {
                 if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: subdirectory) {
+                    print("[AudioEngine] FOUND: \(name).\(ext)")
                     return url
+                } else {
+                     // print("[AudioEngine] Not found: \(name).\(ext)") // Commented out to avoid spam, uncomment if needed
                 }
             }
         }
@@ -271,6 +341,8 @@ final class MeditationAudioEngine {
         let candidates = [
             "\(token)_soundscape", "soundscape_\(token)", "soundscape", "Soundscape"
         ]
+        
+        print("[AudioEngine] Setup Soundscape. Token: \(token), Folder: \(folder)")
         
         // Optimize: Check specific folder first, then generic 'audio'
         if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
@@ -291,6 +363,12 @@ final class MeditationAudioEngine {
             if let duration = soundscapePlayer?.duration {
                 state.totalDuration = Int(duration)
                 state.timeRemaining = state.totalDuration
+                
+                // VALIDATION FIX: Default closing start to end of track.
+                // If closing narration exists, it will overwrite this with (duration - closingDuration).
+                // If it doesn't exist, this ensures 'opening' can still play (0 < duration).
+                closingNarrationStartTime = duration
+                
                 if closingNarrationDuration > 0 {
                     closingNarrationStartTime = duration - closingNarrationDuration
                 }
@@ -307,15 +385,20 @@ final class MeditationAudioEngine {
             "\(token)_intro", "intro_\(token)", "intro"
         ]
         
+        print("[AudioEngine] Setup Opening. Token: \(token), Candidates: \(candidates)")
+        
         if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
-                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") {
-             // Fallback removed for safety, narrations should be specific to the session
+                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"]) {
             do {
                 openingNarrationPlayer = try AVAudioPlayer(contentsOf: url)
                 openingNarrationPlayer?.prepareToPlay()
+                print("[AudioEngine] Loaded Opening: \(url.lastPathComponent)")
             } catch {
                 print("Error loading opening narration: \(error)")
             }
+        } else {
+            print("[AudioEngine] Opening narration NOT found for token: \(token)")
         }
     }
 
@@ -327,7 +410,8 @@ final class MeditationAudioEngine {
         ]
         
         if let url = findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: folder) ??
-                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") {
+                     findResource(names: candidates, extensions: ["mp3", "m4a"], subdirectory: "audio/\(token)") ??
+                     findResource(names: candidates, extensions: ["mp3", "m4a"]) {
             do {
                 closingNarrationPlayer = try AVAudioPlayer(contentsOf: url)
                 closingNarrationPlayer?.prepareToPlay()
@@ -336,10 +420,37 @@ final class MeditationAudioEngine {
                     if let scapeDuration = soundscapePlayer?.duration {
                         closingNarrationStartTime = scapeDuration - duration
                     }
+                    print("[AudioEngine] Loaded Closing: \(url.lastPathComponent), StartTime: \(closingNarrationStartTime)")
                 }
             } catch {
                 print("Error loading closing narration: \(error)")
             }
+        } else {
+            print("[AudioEngine] Closing narration NOT found for token: \(token)")
+        }
+    }
+    
+    private func setupBell() {
+        // Bell is located at audio/player/start.mp3
+        if let url = findResource(names: ["start"], extensions: ["mp3", "m4a"], subdirectory: "audio/player") {
+            do {
+                bellPlayer = try AVAudioPlayer(contentsOf: url)
+                bellPlayer?.delegate = self // IMPORTANT: Set delegate to detect finish
+                bellPlayer?.prepareToPlay()
+            } catch {
+                print("Error loading bell: \(error)")
+            }
+        } else {
+             // Try fallback if user moved it
+             if let url = findResource(names: ["start"], extensions: ["mp3", "m4a"]) {
+                 do {
+                     bellPlayer = try AVAudioPlayer(contentsOf: url)
+                     bellPlayer?.delegate = self
+                     bellPlayer?.prepareToPlay()
+                 } catch {
+                     print("Error loading bell (fallback): \(error)")
+                 }
+             }
         }
     }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import FirebaseCore
 
 @main
@@ -20,5 +21,6 @@ struct inaraApp: App {
                 ContentView()
             }
         }
+        .modelContainer(for: [SomaProfile.self, SomaticInsight.self])
     }
 }

@@ -6,47 +6,60 @@ struct MeditationDetailView: View {
     let onClose: () -> Void
 
     // Content fade-in configuration
+    // Content fade-in configuration
     @State private var contentVisible: Bool = false
     @State private var showExitConfirm: Bool = false
+    @State private var showReflection: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            VStack(spacing: 16) {
-                HStack{}
-                    .frame(height: 40)
-                HStack{
-                    Spacer()
-                    Button(action: { showExitConfirm = true }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .iconStyle()
-                            .padding(16)
+//            if !showReflection {
+                VStack(spacing: 16) {
+                    HStack{}
+                        .frame(height: 40)
+                    HStack{
+                        Spacer()
+                        Button(action: { showExitConfirm = true }) {
+                            Image(systemName: "xmark")
+                                .iconStyle()
+                                .padding(16)
+                        }
                     }
+                    Group {
+                        
+                        Image(meta.imageName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(AppColors.tulum)
+                            .frame(height: 64)
+                            .matchedGeometryEffect(id: "image.\(meta.id)", in: ns)
+
+                        
+                        Text(meta.title)
+                            .titleStyle()
+                            .matchedGeometryEffect(id: "title.\(meta.id)", in: ns)
+
+                        Text(meta.subtitle)
+                            .subtitleStyle()
+                            .matchedGeometryEffect(id: "subtitle.\(meta.id)", in: ns)
+                        
+//                        if !showReflection {
+                            MeditationPlayerView(title: meta.title, folder: meta.audiosrc)
+                                .frame(maxHeight: .infinity)
+//                        }
+                    }
+                 //   .fadeSlideIn(isVisible: $contentVisible)
                 }
-                Group {
-                    
-                    Image(meta.imageName)
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(AppColors.tulum)
-                        .frame(height: 64)
-                        .matchedGeometryEffect(id: "image.\(meta.id)", in: ns)
-
-                    
-                    Text(meta.title)
-                        .titleStyle()
-                        .matchedGeometryEffect(id: "title.\(meta.id)", in: ns)
-
-                    Text(meta.subtitle)
-                        .subtitleStyle()
-                        .matchedGeometryEffect(id: "subtitle.\(meta.id)", in: ns)
-
-
-                    MeditationPlayerView(title: meta.title, folder: meta.audiosrc)
-                        .frame(maxHeight: .infinity)
-                }
-                .fadeSlideIn(isVisible: $contentVisible)
-            }
+//            }
+/*            if showReflection {
+                ReflectionInputView(
+                    isPresented: $showReflection,
+                    meditationTitle: meta.title,
+                    duration: 900 // Default to 15m for now until we surface actual duration
+                )
+                .zIndex(2)
+            } */
         }
         .background(
             RoundedRectangle(cornerRadius: 30, style: .continuous)
@@ -64,10 +77,20 @@ struct MeditationDetailView: View {
         .springAnimated(value: contentVisible)
         .alert("Stop meditation?", isPresented: $showExitConfirm) {
             Button("Cancel", role: .cancel) {}
-            Button("End meditation", role: .destructive) { handleClose() }
+            Button("End meditation", role: .destructive) { 
+                // Don't close immediately, show reflection
+                // showReflection = true 
+                handleClose()
+            }
         } message: {
             Text("Your session will end")
         }
+//        .onChange(of: showReflection) { oldValue, newValue in
+//            if !newValue {
+//                // If it was true and now false, user dismissed reflection -> Close detail
+//                handleClose()
+//            }
+//        }
     }
 
     private func handleClose() {

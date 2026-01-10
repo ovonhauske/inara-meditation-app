@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct OutlineButton: View {
-    var text: String?
-    var icon: String?
+    var text: String? = nil
+    var icon: String? = nil
     var url: URL? = nil
     var action: (() -> Void)? = nil
     var collapse: Bool = false

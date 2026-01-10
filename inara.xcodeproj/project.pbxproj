@@ -47,6 +47,18 @@
 		B09A721E2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */; };
 		B09A721F2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */; };
 		B0B48B082E59FD900035A15C /* color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B48B072E59FD900035A15C /* color.xcassets */; };
+		B0BED60C2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60B2F12C9DB005EB989 /* ReflectionInputView.swift */; };
+		B0BED60D2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60B2F12C9DB005EB989 /* ReflectionInputView.swift */; };
+		B0BED60E2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60B2F12C9DB005EB989 /* ReflectionInputView.swift */; };
+		B0BED6102F12D11D005EB989 /* SomaProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60F2F12D11D005EB989 /* SomaProfile.swift */; };
+		B0BED6112F12D11D005EB989 /* SomaProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60F2F12D11D005EB989 /* SomaProfile.swift */; };
+		B0BED6122F12D11D005EB989 /* SomaProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED60F2F12D11D005EB989 /* SomaProfile.swift */; };
+		B0BED6222F12D917005EB989 /* AIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6202F12D917005EB989 /* AIClient.swift */; };
+		B0BED6232F12D917005EB989 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6212F12D917005EB989 /* Secrets.swift */; };
+		B0BED6242F12D917005EB989 /* AIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6202F12D917005EB989 /* AIClient.swift */; };
+		B0BED6252F12D917005EB989 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6212F12D917005EB989 /* Secrets.swift */; };
+		B0BED6262F12D917005EB989 /* AIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6202F12D917005EB989 /* AIClient.swift */; };
+		B0BED6272F12D917005EB989 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BED6212F12D917005EB989 /* Secrets.swift */; };
 		B0CCAD292F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
 		B0CCAD2A2F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
 		B0CCAD2B2F0AE27200B11D9D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD282F0AE27200B11D9D /* SettingsView.swift */; };
@@ -59,6 +71,15 @@
 		B0CCAD412F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
 		B0CCAD422F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
 		B0CCAD432F0B021E00B11D9D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */; };
+		B0CCAE542F0CA4CB00B11D9D /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE532F0CA4CB00B11D9D /* RippleView.swift */; };
+		B0CCAE552F0CA4CB00B11D9D /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE532F0CA4CB00B11D9D /* RippleView.swift */; };
+		B0CCAE562F0CA4CB00B11D9D /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE532F0CA4CB00B11D9D /* RippleView.swift */; };
+		B0CCAE5D2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE5B2F0CA96B00B11D9D /* Date+NaturalContext.swift */; };
+		B0CCAE5E2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE5B2F0CA96B00B11D9D /* Date+NaturalContext.swift */; };
+		B0CCAE5F2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE5B2F0CA96B00B11D9D /* Date+NaturalContext.swift */; };
+		B0CCAE6B2F0CB8C900B11D9D /* PreMeditationGuidance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE6A2F0CB8C900B11D9D /* PreMeditationGuidance.swift */; };
+		B0CCAE6C2F0CB8CA00B11D9D /* PreMeditationGuidance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE6A2F0CB8C900B11D9D /* PreMeditationGuidance.swift */; };
+		B0CCAE6D2F0CB8CA00B11D9D /* PreMeditationGuidance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAE6A2F0CB8C900B11D9D /* PreMeditationGuidance.swift */; };
 		B0E2BE7E2F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
 		B0E2BE7F2F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
 		B0E2BE802F060CCA00C51B34 /* OutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */; };
@@ -133,10 +154,17 @@
 		B09A72142F05B0A4000BF231 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		B09A721C2F05B0DD000BF231 /* MeditationPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationPlayerViewModel.swift; sourceTree = "<group>"; };
 		B0B48B072E59FD900035A15C /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
+		B0BED60B2F12C9DB005EB989 /* ReflectionInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionInputView.swift; sourceTree = "<group>"; };
+		B0BED60F2F12D11D005EB989 /* SomaProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomaProfile.swift; sourceTree = "<group>"; };
+		B0BED6202F12D917005EB989 /* AIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIClient.swift; sourceTree = "<group>"; };
+		B0BED6212F12D917005EB989 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		B0CCAD282F0AE27200B11D9D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileModel.swift; sourceTree = "<group>"; };
 		B0CCAD402F0B021E00B11D9D /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B0CCAE532F0CA4CB00B11D9D /* RippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleView.swift; sourceTree = "<group>"; };
+		B0CCAE5B2F0CA96B00B11D9D /* Date+NaturalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+NaturalContext.swift"; sourceTree = "<group>"; };
+		B0CCAE6A2F0CB8C900B11D9D /* PreMeditationGuidance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMeditationGuidance.swift; sourceTree = "<group>"; };
 		B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineButton.swift; sourceTree = "<group>"; };
 		B0E2BE812F062E3900C51B34 /* OnboardingHScrollCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHScrollCard.swift; sourceTree = "<group>"; };
 		B0E2BE852F06332900C51B34 /* OnboardingHScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHScroll.swift; sourceTree = "<group>"; };
@@ -162,6 +190,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B096647E2E6DEEA200A8EC91 /* audio */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = audio; sourceTree = "<group>"; };
+		B0BED61B2F12D5C2005EB989 /* AI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AI; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +224,7 @@
 		B08B44772EFA5283001BD5F7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B0BED60F2F12D11D005EB989 /* SomaProfile.swift */,
 				B0CCAD3C2F0B018B00B11D9D /* UserProfileModel.swift */,
 				B08B44672EF8DAF1001BD5F7 /* MeditationsDataModel.swift */,
 				B09A70992F0100B5000BF231 /* MeditationAudioEngine.swift */,
@@ -206,6 +236,7 @@
 		B08B44782EFA5293001BD5F7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B0BED60B2F12C9DB005EB989 /* ReflectionInputView.swift */,
 				B096637A2E5BF1ED00A8EC91 /* BottomSheetView.swift */,
 				B096637B2E5BF1ED00A8EC91 /* MeditationPlayerView.swift */,
 				B09663982E64971D00A8EC91 /* MeditationDetailView.swift */,
@@ -215,6 +246,7 @@
 				B0E2BE992F06E82300C51B34 /* AuthView.swift */,
 				B0E2BE9D2F071F3500C51B34 /* SafariView.swift */,
 				B0CCAD282F0AE27200B11D9D /* SettingsView.swift */,
+				B08B44792EFA52AA001BD5F7 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -222,11 +254,13 @@
 		B08B44792EFA52AA001BD5F7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B0CCAE532F0CA4CB00B11D9D /* RippleView.swift */,
 				B096638B2E5D3AD800A8EC91 /* MeditationCard.swift */,
 				B09A72102F05B094000BF231 /* VolumeSlider.swift */,
 				B0E2BE7D2F060CCA00C51B34 /* OutlineButton.swift */,
 				B0E2BE812F062E3900C51B34 /* OnboardingHScrollCard.swift */,
 				B0E2BE852F06332900C51B34 /* OnboardingHScroll.swift */,
+				B0CCAE6A2F0CB8C900B11D9D /* PreMeditationGuidance.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -245,9 +279,19 @@
 		B0CCAD382F0AF9AF00B11D9D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B0BED6202F12D917005EB989 /* AIClient.swift */,
+				B0BED6212F12D917005EB989 /* Secrets.swift */,
 				B0CCAD372F0AF9AF00B11D9D /* ProfileService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B0CCAE5C2F0CA96B00B11D9D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B0CCAE5B2F0CA96B00B11D9D /* Date+NaturalContext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B0F4D3E22E42E4CC0047476A = {
@@ -275,10 +319,11 @@
 		B0F4D3ED2E42E4CC0047476A /* inara */ = {
 			isa = PBXGroup;
 			children = (
+				B0BED61B2F12D5C2005EB989 /* AI */,
+				B0CCAE5C2F0CA96B00B11D9D /* Extensions */,
 				B0CCAD382F0AF9AF00B11D9D /* Services */,
 				B0E2BEA52F0741D600C51B34 /* inara.entitlements */,
 				B09A70942F004F4C000BF231 /* ViewModel */,
-				B08B44792EFA52AA001BD5F7 /* Components */,
 				B08B44782EFA5293001BD5F7 /* Views */,
 				B08B44772EFA5283001BD5F7 /* Model */,
 				B09663A62E6D18E100A8EC91 /* Info.plist */,
@@ -336,6 +381,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B096647E2E6DEEA200A8EC91 /* audio */,
+				B0BED61B2F12D5C2005EB989 /* AI */,
 			);
 			name = inara;
 			productName = inara;
@@ -357,6 +403,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B096647E2E6DEEA200A8EC91 /* audio */,
+				B0BED61B2F12D5C2005EB989 /* AI */,
 			);
 			name = inaraTests;
 			productName = inaraTests;
@@ -378,6 +425,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B096647E2E6DEEA200A8EC91 /* audio */,
+				B0BED61B2F12D5C2005EB989 /* AI */,
 			);
 			name = inaraUITests;
 			productName = inaraUITests;
@@ -474,7 +522,9 @@
 				B0F4D3F12E42E4CC0047476A /* ContentView.swift in Sources */,
 				B0CCAD2B2F0AE27200B11D9D /* SettingsView.swift in Sources */,
 				B09A721D2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */,
+				B0BED60C2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */,
 				B096638D2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
+				B0CCAE6D2F0CB8CA00B11D9D /* PreMeditationGuidance.swift in Sources */,
 				B0F4D3EF2E42E4CC0047476A /* inaraApp.swift in Sources */,
 				B09A720F2F05B05D000BF231 /* AppTheme.swift in Sources */,
 				B0E2BE962F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
@@ -487,14 +537,19 @@
 				B09A70972F00506C000BF231 /* MeditationViewModel.swift in Sources */,
 				B09A72132F05B094000BF231 /* VolumeSlider.swift in Sources */,
 				B0E2BEA02F071F3500C51B34 /* SafariView.swift in Sources */,
+				B0BED6222F12D917005EB989 /* AIClient.swift in Sources */,
+				B0BED6232F12D917005EB989 /* Secrets.swift in Sources */,
 				B09663862E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
 				B09A72162F05B0A4000BF231 /* LogoView.swift in Sources */,
 				B0E2BE822F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B0E2BE8C2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
+				B0CCAE5F2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */,
 				B0CCAD412F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B096639A2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
 				B0CCAD3E2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
+				B0CCAE552F0CA4CB00B11D9D /* RippleView.swift in Sources */,
 				B09663872E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
+				B0BED6102F12D11D005EB989 /* SomaProfile.swift in Sources */,
 				B09663882E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,9 +558,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0CCAE5D2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */,
+				B0CCAE562F0CA4CB00B11D9D /* RippleView.swift in Sources */,
 				B08B44692EF8DAF1001BD5F7 /* MeditationsDataModel.swift in Sources */,
 				B09663822E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
 				B09663992E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
+				B0CCAE6B2F0CB8C900B11D9D /* PreMeditationGuidance.swift in Sources */,
 				B09A70982F00506C000BF231 /* MeditationViewModel.swift in Sources */,
 				B0E2BE9F2F071F3500C51B34 /* SafariView.swift in Sources */,
 				B09A72112F05B094000BF231 /* VolumeSlider.swift in Sources */,
@@ -515,6 +573,7 @@
 				B096638E2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
 				B0CCAD422F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B0E2BE9C2F06E82300C51B34 /* AuthView.swift in Sources */,
+				B0BED6122F12D11D005EB989 /* SomaProfile.swift in Sources */,
 				B0E2BE832F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B09A709B2F0100B5000BF231 /* MeditationAudioEngine.swift in Sources */,
 				B09A720D2F05B05D000BF231 /* AppTheme.swift in Sources */,
@@ -525,7 +584,10 @@
 				B0E2BE982F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
 				B0E2BE8B2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
 				B0CCAD3F2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
+				B0BED6242F12D917005EB989 /* AIClient.swift in Sources */,
+				B0BED6252F12D917005EB989 /* Secrets.swift in Sources */,
 				B0E2BEBC2F08A52200C51B34 /* AppDelegate.swift in Sources */,
+				B0BED60D2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */,
 				B09663842E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 				B0F4D4002E42E4CF0047476A /* inaraTests.swift in Sources */,
 			);
@@ -539,7 +601,9 @@
 				B0F4D40C2E42E4CF0047476A /* inaraUITestsLaunchTests.swift in Sources */,
 				B0CCAD292F0AE27200B11D9D /* SettingsView.swift in Sources */,
 				B09A721F2F05B0DD000BF231 /* MeditationPlayerViewModel.swift in Sources */,
+				B0BED60E2F12C9DB005EB989 /* ReflectionInputView.swift in Sources */,
 				B096638C2E5D3AD800A8EC91 /* MeditationCard.swift in Sources */,
+				B0CCAE6C2F0CB8CA00B11D9D /* PreMeditationGuidance.swift in Sources */,
 				B0F4D40A2E42E4CF0047476A /* inaraUITests.swift in Sources */,
 				B09A720E2F05B05D000BF231 /* AppTheme.swift in Sources */,
 				B0E2BE972F06C94800C51B34 /* OnboardingHScrollDataModel.swift in Sources */,
@@ -552,14 +616,19 @@
 				B09A70962F00506C000BF231 /* MeditationViewModel.swift in Sources */,
 				B09A72122F05B094000BF231 /* VolumeSlider.swift in Sources */,
 				B0E2BE9E2F071F3500C51B34 /* SafariView.swift in Sources */,
+				B0BED6262F12D917005EB989 /* AIClient.swift in Sources */,
+				B0BED6272F12D917005EB989 /* Secrets.swift in Sources */,
 				B096637E2E5BF1ED00A8EC91 /* BottomSheetView.swift in Sources */,
 				B09A72152F05B0A4000BF231 /* LogoView.swift in Sources */,
 				B0E2BE842F062E3900C51B34 /* OnboardingHScrollCard.swift in Sources */,
 				B0E2BE8A2F06C79F00C51B34 /* OnboardingHScrollViewModel.swift in Sources */,
+				B0CCAE5E2F0CA96B00B11D9D /* Date+NaturalContext.swift in Sources */,
 				B0CCAD432F0B021E00B11D9D /* SettingsViewModel.swift in Sources */,
 				B096639B2E64972000A8EC91 /* MeditationDetailView.swift in Sources */,
 				B0CCAD3D2F0B018B00B11D9D /* UserProfileModel.swift in Sources */,
+				B0CCAE542F0CA4CB00B11D9D /* RippleView.swift in Sources */,
 				B096637F2E5BF1ED00A8EC91 /* MeditationPlayerView.swift in Sources */,
+				B0BED6112F12D11D005EB989 /* SomaProfile.swift in Sources */,
 				B09663802E5BF1ED00A8EC91 /* MeditationsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,7 +798,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -759,7 +828,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -776,7 +845,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inara";
 			};
 			name = Debug;
@@ -794,7 +863,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/inara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/inara";
 			};
 			name = Release;
@@ -810,7 +879,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = inara;
 			};
 			name = Debug;
@@ -826,7 +895,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = inara;
 			};
 			name = Release;

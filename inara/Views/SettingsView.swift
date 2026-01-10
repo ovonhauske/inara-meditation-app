@@ -19,19 +19,28 @@ struct SettingsView: View {
             AppColors.surface.ignoresSafeArea()
             VStack {
                 List{
-                    Image("hscroll1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 150)
+                    VStack{
+                        Image("hscroll1")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                   
                     if let date = viewModel.profile.lastMeditationDate {
-                        Text("Last meditation: \(date.formatted(.relative(presentation: .named)))")
+                        Text("You meditated \(date.getNaturalContext())")
                             .font(.body)
                             .foregroundStyle(AppColors.tulum)
                     } else {
-                        Text("Last meditation: Never")
+                        Text("Take a moment to pause")
                             .font(.body)
                             .foregroundStyle(AppColors.tulum)
                     }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .background(Color.clear)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    
                     Group{
                         HStack {
                             Text("Name")

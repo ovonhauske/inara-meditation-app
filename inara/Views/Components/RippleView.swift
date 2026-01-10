@@ -17,7 +17,7 @@ struct RippleView: View {
             .scaleEffect(rippleScale)
             .opacity(rippleOpacity)
             .allowsHitTesting(false)
-            .onChange(of: trigger) { _ in
+            .onChange(of: trigger) { oldValue, newValue in
                 triggerRipple()
             }
             .onAppear {
