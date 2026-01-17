@@ -41,6 +41,74 @@ struct AIClient {
         
         return try await sendRequest(prompt: systemPrompt)
     }
+
+    // MARK: - Soma Intelligence
+    
+    func generateSomaQuestion(context: SessionLog, profile: SomaProfile) async throws -> String {
+        let prompt = """
+        ROLE:
+        You are a gentle, somaesthetic meditation guide.
+        
+        INPUT DATA:
+        - Current Session: \(context.emotionalCue) (\(context.fragranceName))
+        - Time: \(context.timeOfDay)
+        - Completion: \(context.didComplete ? "Completed" : "Incomplete")
+        
+        USER PROFILE (HISTORY):
+        \(profile.generateContextPayload())
+        
+        TASK:
+        Generate ONE single, gentle question (max 15 words) for the user to reflect on.
+        - If they have a known struggle (from Profile) that relates to this session, reference it subtly.
+        - If they quit early, be kind.
+        - Do not use quotes. Lowercase feels more intimate.
+        
+        OUTPUT:
+        Just the question text.
+        """
+        
+        return try await sendRequest(prompt: prompt)
+    }
+    
+    func updateSomaProfile(newLog: SessionLog, currentProfile: SomaProfile) async throws -> AnalysisResult {
+        let prompt = """
+        ROLE:
+        You are a Somaesthetic Pattern Analyst.
+        
+        TASK:
+        Analyze this new session log against the user's current profile.
+        1. Update their 'Bio Summary' to be poetic and archetypal (e.g. "A night owl seeking stillness...").
+        2. Extract specific insights into Physical, Emotional, or Environmental categories.
+        
+        INPUT:
+        - New Reflection: "\(newLog.userReflection ?? "No text provided")"
+        - Session Context: \(newLog.emotionalCue) at \(newLog.timeOfDay)
+        - Old Profile: \(currentProfile.summary)
+        
+        OUTPUT JSON:
+        {
+          "summary": "The updated poetic bio string...",
+          "insights": [
+            {
+              "text": "User reports jaw tension specifically during 'Focus' sessions.",
+              "category": "Physical",
+              "confidence": 0.95
+            }
+          ]
+        }
+        """
+        
+        let jsonString = try await sendRequest(prompt: prompt)
+        
+        // Robust JSON Cleaning
+        let cleanJSON = jsonString
+            .replacingOccurrences(of: "```json", with: "")
+            .replacingOccurrences(of: "```", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard let data = cleanJSON.data(using: .utf8) else { throw AIError.parsingError }
+        return try JSONDecoder().decode(AnalysisResult.self, from: data)
+    }
     
     /// Analyzes the user's reflection to extract somatic patterns.
     /// Returns a JSON string that can be parsed into insights.

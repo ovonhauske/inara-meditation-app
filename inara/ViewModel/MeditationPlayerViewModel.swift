@@ -54,6 +54,10 @@ final class MeditationPlayerViewModel: ObservableObject {
     func onDisappear() {
         engine.stop()
     }
+    
+    func fadeOut() async {
+        await engine.fadeOutAndStop()
+    }
 
     func togglePlayPause() {
         if isPlaying { 

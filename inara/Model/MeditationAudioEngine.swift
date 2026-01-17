@@ -87,6 +87,32 @@ final class MeditationAudioEngine: NSObject { // Inherit NSObject for Delegate
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
         teardownRemoteCommands()
     }
+    
+    func fadeOutAndStop(duration: TimeInterval = 1.0) async {
+        let steps = 10
+        let stepDuration = duration / Double(steps)
+        
+        // Capture initial volumes so we fade from current level, not just max
+        let startSoundscape = soundscapePlayer?.volume ?? 0
+        let startOpening = openingNarrationPlayer?.volume ?? 0
+        let startClosing = closingNarrationPlayer?.volume ?? 0
+        let startBell = bellPlayer?.volume ?? 0
+        
+        for i in 1...steps {
+            let factor = Float(steps - i) / Float(steps)
+            
+            soundscapePlayer?.volume = startSoundscape * factor
+            openingNarrationPlayer?.volume = startOpening * factor
+            closingNarrationPlayer?.volume = startClosing * factor
+            bellPlayer?.volume = startBell * factor
+            
+            try? await Task.sleep(nanoseconds: UInt64(stepDuration * 1_000_000_000))
+        }
+        
+        stop()
+        // Note: We do NOT reset volumes here. 
+        // `setVolumes` will be called on the next `start()` or `configure()`, restoring them.
+    }
 
     func play() {
         state.isPlaying = true

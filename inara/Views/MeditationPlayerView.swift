@@ -2,15 +2,15 @@ import SwiftUI
 import CoreHaptics
 
 struct MeditationPlayerView: View {
-    @StateObject private var vm: MeditationPlayerViewModel
+    @ObservedObject var vm: MeditationPlayerViewModel
 
     @State private var rippleTrigger: Int = 0
     
     let playerSize: CGFloat = 220
     @State private var stroke: CGFloat = 2
 
-    init(title: String, folder: String) {
-        _vm = StateObject(wrappedValue: MeditationPlayerViewModel(title: title, folder: folder))
+    init(vm: MeditationPlayerViewModel) {
+        self.vm = vm
     }
 
     var body: some View {
@@ -21,7 +21,7 @@ struct MeditationPlayerView: View {
                 playerDial
                     .padding(.bottom, 24)
                 
-                PreMeditationGuidance(onComplete: {})
+                PreMeditationGuidance(shouldLoop: true, onComplete: {})
                     .opacity((rippleTrigger > 0 || vm.progress > 0) ? 0 : 1)
                     .animation(.easeOut(duration: 0.5), value: rippleTrigger)
 

@@ -70,3 +70,40 @@ class SomaticInsight {
         self.triggeringSession = session
     }
 }
+
+// Immutable record of a completed session
+@Model
+class SessionLog {
+    var id: UUID
+    var date: Date
+    var fragranceName: String
+    var emotionalCue: String
+    var timeOfDay: String
+    var duration: TimeInterval
+    var didComplete: Bool
+    var userReflection: String?
+    
+    init(date: Date = Date(), fragranceName: String, emotionalCue: String, duration: TimeInterval, didComplete: Bool, userReflection: String?) {
+        self.id = UUID()
+        self.date = date
+        self.fragranceName = fragranceName
+        self.emotionalCue = emotionalCue
+        self.duration = duration
+        self.didComplete = didComplete
+        self.userReflection = userReflection
+        
+        // Calculate Time of Day logic
+        let hour = Calendar.current.component(.hour, from: date)
+        switch hour {
+        case 5..<12: self.timeOfDay = "Morning"
+        case 12..<17: self.timeOfDay = "Afternoon"
+        case 17..<22: self.timeOfDay = "Evening"
+        default: self.timeOfDay = "Night"
+        }
+    }
+    
+    // Compatibility Init for View Usage
+    convenience init(brand: String, cue: String, duration: TimeInterval, completed: Bool, reflection: String?) {
+        self.init(fragranceName: brand, emotionalCue: cue, duration: duration, didComplete: completed, userReflection: reflection)
+    }
+}

@@ -1,0 +1,21 @@
+ROLE:
+You are a Pattern Analyst. 
+
+INPUT:
+1. Old Physical Pattern: "{OLD_PHYSICAL}"
+2. Old Emotional Pattern: "{OLD_EMOTIONAL}"
+3. New User Journal: "{USER_ENTRY}"
+
+TASK:
+Analyze the new journal entry.
+1. Does this confirm or contradict existing patterns?
+2. Update the specific category (Physical/Emotional) if needed.
+3. If you spot a BRAND NEW insight, flag it.
+
+OUTPUT JSON:
+{
+  "updated_physical": "...",
+  "updated_emotional": "...",
+  "new_insight": "User consistently reports cold hands when anxious." (Optional),
+  "insight_category": "Body" (Optional)
+}

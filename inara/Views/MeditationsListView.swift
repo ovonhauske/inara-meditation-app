@@ -35,7 +35,8 @@ struct MeditationsListView: View {
                             subtitle: meditation.subtitle,
                             imageName: meditation.imageName,
                             id: meditation.id,
-                            ns: cardNamespace
+                            ns: cardNamespace,
+                            isSelected: isActive
                         )
                     }
                     .opacity(isActive ? 0 : 1)           // keep layout; just not visible
@@ -66,11 +67,13 @@ struct MeditationsListView: View {
                     withAnimation(AppAnimation.spring) {
                         isListVisible = true
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) {
-                        selected = nil
-                    }
+                        withAnimation(AppAnimation.spring) {
+                            selected = nil
+                        }
                 }
                 .zIndex(1)
+                .ignoresSafeArea(.container, edges: .top)
+                
             }
         }
         .sheet(isPresented: $showingShop) {

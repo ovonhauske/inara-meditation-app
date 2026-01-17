@@ -6,27 +6,70 @@ struct MeditationCard: View {
     let imageName: String
     let id: UUID
     let ns: Namespace.ID
+    var isSelected: Bool = false
     
     var body: some View {
         
         VStack(spacing: 4) {
-            Image(imageName)
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 48)
-                .foregroundColor(AppColors.tulum)
-                .matchedGeometryEffect(id: "image.\(id)", in: ns)
+            if !isSelected {
+                Image(imageName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .foregroundColor(AppColors.tulum)
+                    .hidden()
+                    .overlay(
+                        Image(imageName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 48)
+                            .foregroundColor(AppColors.tulum)
+                            .matchedGeometryEffect(id: "image.\(id)", in: ns)
+                    )
+            } else {
+                Image(imageName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .foregroundColor(AppColors.tulum)
+            }
                         
-            Text(title)
-                .titleStyle()
-                .multilineTextAlignment(.center)
-                .matchedGeometryEffect(id: "title.\(id)", in: ns)
+            if !isSelected {
+               Text(title)
+                    .titleStyle()
+                    .multilineTextAlignment(.center)
+                    .hidden() // Keep layout size
+                    .overlay(
+                        Text(title)
+                            .titleStyle()
+                            .multilineTextAlignment(.center)
+                            .matchedGeometryEffect(id: "title.\(id)", in: ns)
+                    )
+            } else {
+                 Text(title)
+                    .titleStyle()
+                    .multilineTextAlignment(.center)
+            }
             
-            Text(subtitle)
-                .subtitleStyle()
-                .multilineTextAlignment(.center)
-                .matchedGeometryEffect(id: "subtitle.\(id)", in: ns)
+            if !isSelected {
+               Text(subtitle)
+                    .subtitleStyle()
+                    .multilineTextAlignment(.center)
+                    .hidden()
+                    .overlay(
+                        Text(subtitle)
+                            .subtitleStyle()
+                            .multilineTextAlignment(.center)
+                            .matchedGeometryEffect(id: "subtitle.\(id)", in: ns)
+                    )
+            } else {
+                 Text(subtitle)
+                    .subtitleStyle()
+                    .multilineTextAlignment(.center)
+            }
 
         }
         .padding(24)

@@ -1,9 +1,4 @@
-//
-//  ReflectionInputView.swift
-//  inara
-//
-//  Created by Oscar von Hauske on 1/10/26.
-//
+// ReflectionInputView.swift
 
 import SwiftUI
 import SwiftData
@@ -14,115 +9,121 @@ struct ReflectionInputView: View {
     
     @Binding var isPresented: Bool
     
+    let meta: MeditationDataModel
+    let ns: Namespace.ID
+    
     // Context inputs
     var meditationTitle: String
     var duration: Int
     
-    @State private var text: String = "I noticed..."
-    @State private var headline: String = "Integrate" // Simpler default
+    @State private var text: String = ""
+    @State private var headline: String = "How do you feel right now?"
     @State private var isAnalyzing: Bool = false
-    @State private var isLoadingHeadline: Bool = true
+    @FocusState private var isFocused: Bool
     
     private let aiClient = AIClient()
     
     var body: some View {
         ZStack {
+            // Full-screen background, but keep content respecting top safe area
             AppColors.surface.ignoresSafeArea()
-            
+
             if isAnalyzing {
                 VStack(spacing: 20) {
                     ProgressView()
                     Text("Integrating...")
                         .subtitleStyle()
                 }
+                // Keep progress UI centered and under the top safe area
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             } else {
                 content
             }
         }
-        .onAppear {
-            generateHeadline()
-        }
     }
     
+    // Main content: respects top safe area; only bottom adjusts for keyboard
     var content: some View {
-        VStack(spacing: 24) {
-            Image("reflect")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80)
-           
-            VStack(alignment: .center, spacing: 4) {
-                // 1. HEADLINE
-                if isLoadingHeadline {
-                    ProgressView()
-                        .padding()
-                } else {
-                    Text(headline.uppercased())
-                        .titleStyle()
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .multilineTextAlignment(.center)
-                }
-                
-                // 2. EXPLAINER
-                Text("Add a note to help uncover patterns in your practice over time")
-                    .subtitleStyle()
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Top spacer to give breathing room below the status/Dynamic Island
+                    HStack{}.frame(height: 80)
+                    
+                    // Header
+                    VStack {
+                        Image(meta.imageName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(AppColors.tulum)
+                            .frame(height: 48)
+                            .matchedGeometryEffect(id: "image.\(meta.id)", in: ns)
+                        
+                        Text(meta.title)
+                            .titleStyle()
+                            .matchedGeometryEffect(id: "title.\(meta.id)", in: ns)
+                        
+                        Text(meta.subtitle)
+                            .subtitleStyle()
+                            .matchedGeometryEffect(id: "subtitle.\(meta.id)", in: ns)
+                    }
+                    
+                    // Prompt and explainer
+                    VStack(alignment: .center, spacing: 4) {
+                        Text(headline.uppercased())
+                            .titleStyle()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Add a note to help uncover patterns in your practice over time")
+                            .subtitleStyle()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .multilineTextAlignment(.center)
+                    }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .multilineTextAlignment(.center)
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            
-           
-            // 3. THE FIELD
-            TextEditor(text: $text)
-                .scrollContentBackground(.hidden)
-                .background(Color.clear)
-                .frame(height: 100)
+                    
+                    // Text input
+                    ZStack(alignment: .topLeading) {
+                        if text.isEmpty {
+                            Text("I noticed...")
+                                .subtitleStyle()
+                                .opacity(0.6)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 24)
+                                .allowsHitTesting(false)
+                        }
+                        
+                        TextEditor(text: $text)
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
+                            .frame(height: 100)
+                            .padding(16)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppColors.outline, lineWidth: 2)
+                            )
+                            .focused($isFocused)
+                    }
+                }
                 .padding(16)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(AppColors.outline, lineWidth: 2)
-                )
-    
+            }
             
-           
-            // 4. CTAS
+            // CTA row stays above the keyboard via standard layout resizing
             HStack {
                 OutlineButton(text: "Not now", action: {
-                isPresented = false
+                    isPresented = false
                 }, collapse: false)
                 
                 OutlineButton(text: "Save reflection", action: {
                     saveReflection()
                 }, collapse: false)
             }
-
+            .padding(16)
         }
-        .padding(16)
-    }
-    
-    private func generateHeadline() {
-        // Don't re-generate if we already have a custom one
-        guard headline == "Integrate" else { return }
-        
-        Task {
-            isLoadingHeadline = true
-            do {
-                let context = "Meditation: \(meditationTitle), Duration: \(duration/60) min. User context: Beginner."
-                let newHeadline = try await aiClient.generateHeadline(context: context)
-                await MainActor.run {
-                        headline = newHeadline
-                        isLoadingHeadline = false
-                }
-            } catch {
-                print("Failed to generate headline: \(error)")
-                await MainActor.run {
-                    // Fallback to a generic but different question so they see a change
-
-                        headline = "How do you feel right now?"
-                        isLoadingHeadline = false
-                    
-                }
-            }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            isFocused = true
         }
     }
     
@@ -157,7 +158,7 @@ struct ReflectionInputView: View {
                     profile.insights.append(insight)
                 }
                 
-                try modelContext.save() // Only necessary if auto-save isn't catching it immediately, but safer.
+                try modelContext.save()
                 
                 await MainActor.run {
                     isAnalyzing = false
@@ -166,10 +167,8 @@ struct ReflectionInputView: View {
                 
             } catch {
                 print("Failed to analyze: \(error)")
-                // Even if AI fails, we close the view so the user isn't stuck.
-                // Optionally we could show an error toast, but preventing stuck state is priority.
-                await MainActor.run { 
-                    isAnalyzing = false 
+                await MainActor.run {
+                    isAnalyzing = false
                     isPresented = false
                 }
             }
@@ -177,6 +176,15 @@ struct ReflectionInputView: View {
     }
 }
 
-#Preview{
-    ReflectionInputView(isPresented: Binding<Bool>(get: {false}, set: {_ in}),  meditationTitle: "Something", duration: 5)
+#Preview {
+    struct PreviewWrapper: View {
+        @Namespace var ns
+        @State var isPresented = true
+        let meta = MeditationDataModel(title: "Calm", audiosrc: "nil", subtitle: "Inara", imageName: "calming")
+        
+        var body: some View {
+            ReflectionInputView(isPresented: $isPresented, meta: meta, ns: ns, meditationTitle: "Something", duration: 5)
+        }
+    }
+    return PreviewWrapper()
 }
